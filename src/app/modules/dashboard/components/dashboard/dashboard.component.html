@@ -1,0 +1,8 @@
+
+<div class="p-1">
+  <mat-accordion>
+    <app-rover-panel
+      *ngFor="let rover of roversList | async"
+      [rover]="rover"></app-rover-panel>
+  </mat-accordion>
+</div>

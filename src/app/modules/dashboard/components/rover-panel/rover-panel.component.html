@@ -1,0 +1,17 @@
+<mat-expansion-panel
+  (opened)="openedPanel()"
+  (closed)="closedPanel()"
+  (afterExpand)="expandPanel()">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ rover.name }}</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div>
+    <app-loader
+      *ngIf="loadManifest"
+      [store]="storeRef"
+      [action]="loadAction">
+    </app-loader>
+
+    <p>This is the primary content of the panel.</p>
+  </div>
+</mat-expansion-panel>
