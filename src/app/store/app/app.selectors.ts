@@ -1,6 +1,9 @@
-import { createFeatureSelector, createSelector, Store } from "@ngrx/store";
-import { Rover } from "src/app/models/rovers";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { CodesNames } from "src/app/models/rovers";
+import { PanelLoadStatus } from "src/app/models/store";
 import { StoreState } from "./app.state";
+import * as ROVER_CONSTANTS from '../../models/constants';
+import { ManifestPhoto } from "src/app/models/manifest";
 
 export const selectState = createFeatureSelector<StoreState>('store');
 
@@ -9,57 +12,85 @@ export const getInitialDataIsReady = createSelector(
   (state: StoreState): boolean => state?.initialDataReady
 );
 
-export const getRoversList = createSelector (
+export const getCodesNamesList = createSelector (
   selectState,
-  (state: StoreState): Rover[] => state?.roversList
+  (state: StoreState): CodesNames[] => state?.roverCodesNamesList
 );
 
-export const getExpandedPanel = createSelector (
+export const getLoadManifestStatus = createSelector (
   selectState,
-  (state: StoreState): string  => state?.panelExpanded
+  (state: StoreState): Map<string, PanelLoadStatus> => {
+    const data = new Map();
+    state?.roversList?.forEach(rover => {
+      data.set(rover.code, {
+        loading: rover.loadingManifest,
+        loaded: rover.loadedManifest,
+        error: rover.errorLoadingManifest
+      });
+    });
+    return data;
+  }
 );
 
-export const getExpandedPanelInfo = createSelector (
+export const getIsLoadingManifest = createSelector (
   selectState,
-  getExpandedPanel,
-  (state: StoreState, expandedPanel: string): Rover => state?.roversList?.filter(item => item.id === expandedPanel)[0]
+  (state: StoreState): Map<string, boolean> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LOADING_MANIFEST)
 );
 
-export const getPanelIsLoading = createSelector (
-  getExpandedPanelInfo,
-  (panel: Rover): boolean => panel?.loadingManifest
+export const getHasManifest = createSelector (
+  selectState,
+  (state: StoreState): Map<string, boolean> =>  createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.HAVE_MANIFEST)
 );
 
-export const getPanelIsLoaded = createSelector (
-  getExpandedPanelInfo,
-  (panel: Rover): boolean => panel?.loadedManifest
+export const getNoManifestLoading = createSelector (
+  selectState,
+  (state: StoreState): boolean => state?.roversList?.every(item => !item.loadingManifest)
 );
 
-export const getPanelErrorLoading = createSelector (
-  getExpandedPanelInfo,
-  (panel: Rover): boolean => panel?.errorLoadingManifest
+export const getLaunchDates = createSelector (
+  selectState,
+  (state: StoreState): Map<string, string> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LAUNCH_DATE)
 );
 
-export const getPanelHasManifest = createSelector (
-  getExpandedPanelInfo,
-  (panel: Rover): boolean => panel?.haveManifest
+export const getLandingDates = createSelector (
+  selectState,
+  (state: StoreState): Map<string, string> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LANDING_DATE)
 );
 
-export const getLoadManifest = createSelector (
-  getPanelHasManifest,
-  getPanelIsLoading,
-  getPanelIsLoaded,
-  getPanelErrorLoading,
-  (
-    hasManifest: boolean, isLoading: boolean,
-    isLoaded: boolean, errorLoading: boolean
-  ) => (!hasManifest && !isLoading && !isLoaded && !errorLoading)
+export const getTotalPhotos = createSelector (
+  selectState,
+  (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.TOTAL_PHOTOS)
 );
 
-export const getLoadManifestInfo = createSelector (
-  getLoadManifest,
-  getExpandedPanel,
-  (loadManifest: boolean, expandedPanel: string) => ({
-    loadManifest, expandedPanel
-  })
+export const getPhotosList = createSelector (
+  selectState,
+  (state: StoreState): Map<string, ManifestPhoto[]> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.PHOTOS)
 );
+
+export const getMaxSol = createSelector (
+  selectState,
+  (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.MAX_SOL)
+);
+
+export const getMaxDate = createSelector (
+  selectState,
+  (state: StoreState): Map<string, string> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.MAX_DATE)
+);
+
+export const getStatus = createSelector (
+  selectState,
+  (state: StoreState): Map<string, ROVER_CONSTANTS.STATUS> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.STATUS)
+);
+
+function createValueMap(state: StoreState, key: string): Map<string, any> {
+  const data = new Map();
+  state?.roversList?.forEach(rover => {
+    const entries = Object.entries(rover);
+    const value = entries.find(item => item[0] === key);
+    const code = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.CODE);
+    if (value && code) {
+      data.set(code[1], value[1]);
+    }
+  });
+  return data;
+}

@@ -6,3 +6,17 @@ export type CAMERA =
 
 export type STATUS = 'active' | 'complete';
 
+export enum ROVER_FIELDS {
+  LOADING_MANIFEST = 'loadingManifest',
+  LOADED_MANIFEST = 'loadedManifest',
+  ERROR_LOADING_MANIFEST = 'errorLoadingManifest',
+  CODE = 'code',
+  HAVE_MANIFEST = 'haveManifest',
+  LANDING_DATE = 'landing_date',
+  LAUNCH_DATE = 'launch_date',
+  STATUS = 'status',
+  MAX_SOL = 'max_sol',
+  MAX_DATE = 'max_date',
+  TOTAL_PHOTOS = 'total_photos',
+  PHOTOS = 'photos'
+};

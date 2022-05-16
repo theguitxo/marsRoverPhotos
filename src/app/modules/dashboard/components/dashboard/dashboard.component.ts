@@ -1,24 +1,25 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { Rover } from "src/app/models/rovers";
-import { getRoversList } from "src/app/store/app/app.selectors";
+import { CodesNames } from "src/app/models/rovers";
 import { StoreState } from "src/app/store/app/app.state";
+import * as SELECTORS from '../../../../store/app/app.selectors';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
 
-  roversList!: Observable<Rover[]>;
-
+  codesNames!: Observable<CodesNames[]>;
+  
   constructor(
     private readonly store: Store<StoreState>
   ) {}
 
   ngOnInit(): void {
-    this.roversList = this.store.select(getRoversList); 
+    this.codesNames = this.store.select(SELECTORS.getCodesNamesList);
   }
 }

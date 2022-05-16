@@ -21,3 +21,8 @@ export interface Rover extends Manifest {
   loadedManifest: boolean;
   errorLoadingManifest: boolean;
 }
+
+export interface CodesNames {
+  code: string;
+  name?: string;
+}

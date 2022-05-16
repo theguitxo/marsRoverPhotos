@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { Action, Store } from "@ngrx/store";
-import { Subscription } from "rxjs";
-import { Rover } from "src/app/models/rovers";
-import * as ROVER_ACTIONS from "../../../../store/app/app.actions";
-import * as ROVER_SELECTORS from "../../../../store/app/app.selectors";
-import { StoreState } from "src/app/store/app/app.state";
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Action, Store } from '@ngrx/store';
+import { map, Observable } from 'rxjs';
+import { CodesNames } from 'src/app/models/rovers';
+import * as ROVER_ACTIONS from '../../../../store/app/app.actions';
+import * as ROVER_SELECTORS from '../../../../store/app/app.selectors';
+import { StoreState } from 'src/app/store/app/app.state';
+import { ManifestPhoto } from 'src/app/models/manifest';
+import { STATUS } from 'src/app/models/constants';
 
 @Component({
   selector: 'app-rover-panel',
@@ -12,12 +14,25 @@ import { StoreState } from "src/app/store/app/app.state";
   styleUrls: ['./rover-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoverPanelComponent implements OnInit, OnDestroy {
-  @Input() rover!: Rover;
+export class RoverPanelComponent implements OnInit {
+  @Input() codeName!: CodesNames;
+  
+  hasManifest!: Observable<boolean | undefined>;
+  isLoadingManifest!: Observable<boolean | undefined>;
+  noManifestLoading!: Observable<boolean | undefined>;
 
-  subscription!: Subscription;
-  loadManifest!: boolean;
   loadAction!: Action;
+
+  logo!: string;
+  isOpened!: boolean;
+
+  launchDate!: Observable<string | undefined>;
+  landingDate!: Observable<string | undefined>;
+  maxDate!: Observable<string | undefined>;
+  maxSol!: Observable<string | number>;
+  totalPhotos!: Observable<number | undefined>;
+  photosList!: Observable<ManifestPhoto[] | undefined>;
+  status!: Observable<STATUS | undefined>;
 
   get storeRef(): Store<StoreState> {
     return this.store;
@@ -28,37 +43,45 @@ export class RoverPanelComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.setSubscriptions();
     this.setLoadAction();
+    this.setSubscriptions();
+    this.setLogo();
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  afterExpand(): void {
+    this.isOpened = true;
   }
 
-  expandPanel(): void {
-    this.store.dispatch(ROVER_ACTIONS.expandedPanel({ panelId: this.rover.id }));
+  afterCollapse(): void {
+    this.isOpened = false;
   }
 
-  openedPanel(): void {
-    this.store.dispatch(ROVER_ACTIONS.expandingPanel({ panelId: this.rover.id }));
-  }
-
-  closedPanel(): void {
-    this.store.dispatch(ROVER_ACTIONS.collapsedPanel());
+  private setLogo(): void {
+    this.logo = `../../../../../../../assets/avatar/${this.codeName.code}.png`;
   }
 
   private setSubscriptions(): void {
-    this.subscription = this.store.select(ROVER_SELECTORS.getLoadManifestInfo)
-      .subscribe((data) => {
-        this.loadManifest = (data.loadManifest && data.expandedPanel === this.rover.id);
-      });
+    this.noManifestLoading = this.store.select(ROVER_SELECTORS.getNoManifestLoading);
+    this.hasManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getHasManifest);
+    this.isLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadingManifest);
+    this.launchDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLaunchDates);
+    this.landingDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLandingDates);
+    this.maxDate = this.getRoverValueFromStore(ROVER_SELECTORS.getMaxDate);
+    this.maxSol = this.getRoverValueFromStore(ROVER_SELECTORS.getMaxSol);
+    this.totalPhotos = this.getRoverValueFromStore(ROVER_SELECTORS.getTotalPhotos);
+    this.photosList = this.getRoverValueFromStore(ROVER_SELECTORS.getPhotosList);
+    this.status = this.getRoverValueFromStore(ROVER_SELECTORS.getStatus);
   }
 
   private setLoadAction(): void {
     this.loadAction = ROVER_ACTIONS.loadRoverManifest({
-      panelId: this.rover.id,
-      rover: this.rover.code
+      rover: this.codeName.code
     });
+  }
+
+  private getRoverValueFromStore(selector:any): Observable<any> {
+    return this.store.select(selector).pipe(map((data) =>{
+      return data.get(this.codeName.code)
+    })); 
   }
 }
