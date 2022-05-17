@@ -62,11 +62,6 @@ export const getTotalPhotos = createSelector (
   (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.TOTAL_PHOTOS)
 );
 
-export const getPhotosList = createSelector (
-  selectState,
-  (state: StoreState): Map<string, ManifestPhoto[]> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.PHOTOS)
-);
-
 export const getMaxSol = createSelector (
   selectState,
   (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.MAX_SOL)
@@ -80,6 +75,69 @@ export const getMaxDate = createSelector (
 export const getStatus = createSelector (
   selectState,
   (state: StoreState): Map<string, ROVER_CONSTANTS.STATUS> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.STATUS)
+);
+
+export const getPhotosList = createSelector (
+  selectState,
+  (state: StoreState): Map<string, ManifestPhoto[]> => {
+    const data = new Map();
+    state?.roversList?.forEach(rover => {
+      const entries = Object.entries(rover);
+      const code = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.CODE);
+      const currentPage = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.CURRENT_PHOTOS_PAGE);
+      const photosList = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.PHOTOS);
+
+      if (code && currentPage && photosList) {
+        const init = (currentPage[1] - 1) * ROVER_CONSTANTS.PHOTOS_PER_PAGE;
+        const end = (init + ROVER_CONSTANTS.PHOTOS_PER_PAGE);
+        data.set(code[1], photosList[1].slice(init, end));
+      }
+    });
+    return data;
+  }
+);
+
+export const getCurrentPhotosPage = createSelector (
+  selectState,
+  (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.CURRENT_PHOTOS_PAGE)
+);
+
+export const getPhotosPages = createSelector (
+  selectState,
+  (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.PHOTOS_PAGES)
+)
+
+export const getEnablePreviousButton = createSelector (
+  selectState,
+  (state: StoreState): Map<string, boolean[]> => {
+    const data = new Map();
+    state?.roversList?.forEach(rover => {
+      const entries = Object.entries(rover);
+      const code = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.CODE);
+      const currentPage = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.CURRENT_PHOTOS_PAGE);
+      if (code && currentPage) {
+        data.set(code[1], currentPage[1] > 1);
+      }
+    });
+    return data;
+  }
+);
+
+export const getEnableNextButton = createSelector (
+  selectState,
+  (state: StoreState): Map<string, boolean[]> => {
+    const data = new Map();
+    state?.roversList?.forEach(rover => {
+      const entries = Object.entries(rover);
+      const code = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.CODE);
+      const currentPage = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.CURRENT_PHOTOS_PAGE);
+      const totalPages = entries.find(item => item[0] === ROVER_CONSTANTS.ROVER_FIELDS.PHOTOS_PAGES);
+      if (code && currentPage && totalPages) {
+        data.set(code[1], currentPage[1] < totalPages[1]);
+      }
+    });
+    return data;
+  }
 );
 
 function createValueMap(state: StoreState, key: string): Map<string, any> {

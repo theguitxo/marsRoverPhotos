@@ -20,6 +20,8 @@ export interface Rover extends Manifest {
   loadingManifest: boolean;
   loadedManifest: boolean;
   errorLoadingManifest: boolean;
+  photosPages?: number;
+  currentPhotosPage?: number;
 }
 
 export interface CodesNames {

@@ -18,5 +18,9 @@ export enum ROVER_FIELDS {
   MAX_SOL = 'max_sol',
   MAX_DATE = 'max_date',
   TOTAL_PHOTOS = 'total_photos',
-  PHOTOS = 'photos'
-};
+  PHOTOS = 'photos',
+  PHOTOS_PAGES = 'photosPages',
+  CURRENT_PHOTOS_PAGE = 'currentPhotosPage'
+}
+
+export const PHOTOS_PER_PAGE = 40;

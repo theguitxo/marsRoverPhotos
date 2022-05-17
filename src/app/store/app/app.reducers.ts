@@ -1,15 +1,17 @@
-import { Action, createReducer, on, Store } from "@ngrx/store";
-import { ApiManifest, Manifest } from "src/app/models/manifest";
-import { CodesNames, Rover, RoverCamera, RoverListItem } from "../../models/rovers";
+import { Action, createReducer, on } from "@ngrx/store";
+import { Manifest } from "src/app/models/manifest";
+import { Rover, RoverCamera, RoverListItem } from "../../models/rovers";
 import * as ACTIONS from "./app.actions";
 import { initialState, StoreState } from "./app.state";
+import * as ROVER_CONSTANTS from '../../models/constants';
 
 const _storeReducer = createReducer (
   initialState,
   on(ACTIONS.setInitialData, (state: StoreState, { camerasList, roversList }) => ({..._setInitialData({...state}, camerasList, roversList)})),
   on(ACTIONS.loadRoverManifest, (state: StoreState, { rover }) => ({ ..._loadRoverManifest({...state}, rover)})),
   on(ACTIONS.loadRoverManifestSuccess, (state: StoreState, { data, rover }) => ({ ..._loadRoverManifestSuccess({...state}, data, rover) })),
-  on(ACTIONS.loadRoverManifestError, (state: StoreState, { rover }) => ({..._loadRoverManifestError({...state}, rover)}))
+  on(ACTIONS.loadRoverManifestError, (state: StoreState, { rover }) => ({..._loadRoverManifestError({...state}, rover)})),
+  on(ACTIONS.updateCurrentPhotosPage, (state: StoreState, { page, rover }) => ({..._updateCurrentPhotosPage({...state}, page, rover)}))
 );
 
 export function storeReducer(state: StoreState | undefined, action: Action): StoreState {
@@ -63,13 +65,16 @@ function _loadRoverManifest(state: StoreState, rover: string): StoreState {
 function _loadRoverManifestSuccess(state: StoreState, data: Manifest, rover: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
+      const photosPages = Math.ceil(data.photos?.length as number / ROVER_CONSTANTS.PHOTOS_PER_PAGE);
       return {
         ...item,
         ...data,
         haveManifest: true,
         loadingManifest: false,
         loadedManifest: true,
-        errorLoadingManifest: false
+        errorLoadingManifest: false,
+        currentPhotosPage: 1,
+        photosPages
       }
     }
     return { ...item }
@@ -88,6 +93,22 @@ function _loadRoverManifestError(state: StoreState, rover: string): StoreState {
         loadingManifest: false,
         loadedManifest: true,
         errorLoadingManifest: true
+      }
+    }
+    return { ...item }
+  });
+  return {
+    ...state,
+    roversList: [...rovers]
+  }
+}
+
+function _updateCurrentPhotosPage(state: StoreState, page: number, rover: string): StoreState {
+  const rovers = state?.roversList?.map(item => {
+    if (item.code === rover) {
+      return {
+        ...item,
+        currentPhotosPage: page
       }
     }
     return { ...item }

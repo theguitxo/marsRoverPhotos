@@ -10,7 +10,7 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <div *ngIf="(hasManifest | async); else noManifest">
-    <mat-tab-group mat-align-tabs="start">
+    <mat-tab-group mat-align-tabs="start" animationDuration="0ms">
       <mat-tab label="Launching date">
         <div class="data-box mat-elevation-z4">
           <div class="icon">
@@ -68,6 +68,13 @@
         </div>
       </mat-tab>
       <mat-tab label="Photos list">
+        <div>
+          <button [disabled]="!(previousButtonEnabled | async)" (click)="photosFirstPage()">First</button>
+          <button [disabled]="!(previousButtonEnabled | async)" (click)="photosPreviousPage()">Previous</button>
+          {{ currentPage | async }} / {{ lastPage }}
+          <button [disabled]="!(nextButtonEnabled | async)" (click)="photosNextPage()">Next</button>
+          <button [disabled]="!lastPage || !(nextButtonEnabled | async)" (click)="photosLastPage()">Last</button>
+        </div>
         <div class="list-photo-info">
           <div
             *ngFor="let photoInfo of photosList | async" 
