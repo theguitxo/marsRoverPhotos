@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
-import { map, Observable, of, take, takeUntil, takeWhile } from 'rxjs';
+import { map, Observable, take, takeWhile } from 'rxjs';
 import { CodesNames } from 'src/app/models/rovers';
 import * as ROVER_ACTIONS from '../../../../store/app/app.actions';
 import * as ROVER_SELECTORS from '../../../../store/app/app.selectors';
