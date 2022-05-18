@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
-import { map, Observable, take, takeWhile } from 'rxjs';
-import { CodesNames } from 'src/app/models/rovers';
+import { map, Observable } from 'rxjs';
 import * as ROVER_ACTIONS from '../../../../store/app/app.actions';
 import * as ROVER_SELECTORS from '../../../../store/app/app.selectors';
 import { StoreState } from 'src/app/store/app/app.state';
@@ -15,16 +14,15 @@ import { STATUS } from 'src/app/models/constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoverPanelComponent implements OnInit {
-  @Input() codeName!: CodesNames;
-  
-  hasManifest!: Observable<boolean | undefined>;
-  isLoadingManifest!: Observable<boolean | undefined>;
-  noManifestLoading!: Observable<boolean | undefined>;
-
-  loadAction!: Action;
+  @Input() code!: string;
 
   logo!: string;
   isOpened!: boolean;
+
+  hasManifest!: Observable<boolean | undefined>;
+  isLoadingManifest!: Observable<boolean | undefined>;
+  noManifestLoading!: Observable<boolean | undefined>;
+  loadAction!: Action;
 
   launchDate!: Observable<string | undefined>;
   landingDate!: Observable<string | undefined>;
@@ -34,11 +32,14 @@ export class RoverPanelComponent implements OnInit {
   photosList!: Observable<ManifestPhoto[] | undefined>;
   status!: Observable<STATUS | undefined>;
 
-  currentPage!: Observable<number | undefined>;
-  previousButtonEnabled!: Observable<boolean | undefined>;
-  nextButtonEnabled!: Observable<boolean | undefined>;
-
-  lastPage!: number | undefined;
+  firstPageAction!: Action;
+  previousPageAction!: Action;
+  nextPageAction!: Action;
+  lastPageAction!: Action;
+  currentPage!: Observable<number>;
+  previousButtonEnabled!: Observable<boolean>;
+  nextButtonEnabled!: Observable<boolean>;
+  lastPage!: Observable<number>;
 
   get storeRef(): Store<StoreState> {
     return this.store;
@@ -49,7 +50,7 @@ export class RoverPanelComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.setLoadAction();
+    this.setActions();
     this.setSubscriptions();
     this.setLogo();
   }
@@ -62,58 +63,8 @@ export class RoverPanelComponent implements OnInit {
     this.isOpened = false;
   }
 
-  photosPreviousPage(): void {
-    this.store.select(ROVER_SELECTORS.getCurrentPhotosPage)
-      .pipe(
-        take(1),
-        map((data) =>{
-          return data.get(this.codeName.code)
-        })
-      ).subscribe(currentPage => {
-        if (currentPage) {
-          this.store.dispatch(ROVER_ACTIONS.updateCurrentPhotosPage({
-            page: (currentPage - 1),
-            rover: this.codeName.code
-          }));
-        }
-      });
-  }
-  
-  photosNextPage(): void {
-    this.store.select(ROVER_SELECTORS.getCurrentPhotosPage)
-      .pipe(
-        take(1),
-        map((data) =>{
-          return data.get(this.codeName.code)
-        })
-      ).subscribe(currentPage => {
-        if (currentPage) {
-          this.store.dispatch(ROVER_ACTIONS.updateCurrentPhotosPage({
-            page: (currentPage + 1),
-            rover: this.codeName.code
-          }));
-        }
-      });
-  }
-
-  photosFirstPage(): void {
-    this.store.dispatch(ROVER_ACTIONS.updateCurrentPhotosPage({
-      page: 1,
-      rover: this.codeName.code
-    }));
-  }
-
-  photosLastPage(): void {
-    if (this.lastPage !== undefined) {
-      this.store.dispatch(ROVER_ACTIONS.updateCurrentPhotosPage({
-        page: this.lastPage,
-        rover: this.codeName.code
-      }));
-    }
-  }
-
   private setLogo(): void {
-    this.logo = `../../../../../../../assets/avatar/${this.codeName.code}.png`;
+    this.logo = `../../../../../../../assets/avatar/${this.code}.png`;
   }
 
   private setSubscriptions(): void {
@@ -128,26 +79,21 @@ export class RoverPanelComponent implements OnInit {
     this.photosList = this.getRoverValueFromStore(ROVER_SELECTORS.getPhotosList);
     this.status = this.getRoverValueFromStore(ROVER_SELECTORS.getStatus);
 
-    this.currentPage = this.getRoverValueFromStore(ROVER_SELECTORS.getCurrentPhotosPage);
-    this.previousButtonEnabled = this.getRoverValueFromStore(ROVER_SELECTORS.getEnablePreviousButton);
-    this.nextButtonEnabled = this.getRoverValueFromStore(ROVER_SELECTORS.getEnableNextButton);
-
-    this.store.select(ROVER_SELECTORS.getPhotosPages)
-      .pipe(
-        takeWhile(() => this.lastPage === undefined),
-        map((data) => data.get(this.codeName.code))
-      ).subscribe(lastPage => this.lastPage = lastPage);
+    this.currentPage = this.getRoverValueFromStore(ROVER_SELECTORS.getCurrentPhotosPage).pipe(map(value => value ?? 1));
+    this.previousButtonEnabled = this.getRoverValueFromStore(ROVER_SELECTORS.getEnablePreviousButton).pipe(map(value => value ?? false));
+    this.nextButtonEnabled = this.getRoverValueFromStore(ROVER_SELECTORS.getEnableNextButton).pipe(map(value => value ?? false));
+    this.lastPage = this.getRoverValueFromStore(ROVER_SELECTORS.getPhotosPages).pipe(map(value => value ?? 1));
   }
 
-  private setLoadAction(): void {
-    this.loadAction = ROVER_ACTIONS.loadRoverManifest({
-      rover: this.codeName.code
-    });
+  private setActions(): void {
+    this.loadAction = ROVER_ACTIONS.loadRoverManifest({ rover: this.code });
+    this.firstPageAction = ROVER_ACTIONS.goToFirstPhotosPage({ rover: this.code });
+    this.previousPageAction = ROVER_ACTIONS.goToPreviousPhotosPage({ rover: this.code });
+    this.nextPageAction = ROVER_ACTIONS.goToNextPhotosPage({ rover: this.code });
+    this.lastPageAction = ROVER_ACTIONS.goToLastPhotosPage({ rover: this.code });
   }
 
   private getRoverValueFromStore(selector:any): Observable<any> {
-    return this.store.select(selector).pipe(map((data) =>{
-      return data.get(this.codeName.code)
-    })); 
+    return this.store.select(selector).pipe(map((data) => data.get(this.code))); 
   }
 }

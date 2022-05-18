@@ -1,15 +1,15 @@
-import { CodesNames, Rover, RoverCamera } from "../../models/rovers";
+import { Rover, RoverCamera } from "../../models/rovers";
 
 export interface StoreState {
   camerasList: RoverCamera[];
   roversList: Rover[];
-  roverCodesNamesList: CodesNames[];
+  roverCodesList: string[];
   initialDataReady: boolean;
 }
 
 export const initialState: StoreState = {
   camerasList: [],
   roversList: [],
-  roverCodesNamesList: [],
+  roverCodesList: [],
   initialDataReady: false
 };

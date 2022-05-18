@@ -23,8 +23,3 @@ export interface Rover extends Manifest {
   photosPages?: number;
   currentPhotosPage?: number;
 }
-
-export interface CodesNames {
-  code: string;
-  name?: string;
-}

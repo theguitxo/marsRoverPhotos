@@ -1,13 +1,17 @@
 import { CommonModule, DatePipe, DecimalPipe } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { LoaderComponent } from "./components/loader/loader.component";
+import { PaginatorComponent } from "./components/paginator/paginator.component";
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MatButtonModule
   ],
   declarations: [
-    LoaderComponent
+    LoaderComponent,
+    PaginatorComponent
   ],
   providers: [
     DatePipe,
@@ -16,6 +20,7 @@ import { LoaderComponent } from "./components/loader/loader.component";
   exports: [
     CommonModule,
     LoaderComponent,
+    PaginatorComponent,
     DatePipe,
     DecimalPipe
   ]

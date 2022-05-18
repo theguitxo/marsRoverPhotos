@@ -1,7 +1,7 @@
 <div class="p-1">
   <mat-accordion [multi]="true">
     <app-rover-panel
-      *ngFor="let codeName of codesNames | async"
-      [codeName]="codeName"></app-rover-panel>
+      *ngFor="let code of codes | async"
+      [code]="code"></app-rover-panel>
   </mat-accordion>
 </div>

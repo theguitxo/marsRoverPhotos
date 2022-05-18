@@ -14,7 +14,7 @@ import { RoverPhotosComponent } from "./components/rover-photos/rover-photos.com
     DashboardRoutingModule,
     MatExpansionModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
   ],
   declarations: [
     DashboardComponent,

@@ -1,0 +1,23 @@
+<div class="pagination">
+  <button
+    mat-stroked-button color="primary"
+    [disabled]="!enabledPrevious"
+    (click)="photosFirstPage()">First
+  </button>
+  <button
+    mat-stroked-button color="primary"
+    [disabled]="!enabledPrevious"
+    (click)="photosPreviousPage()">Previous
+  </button>
+  <div>Page {{ currentPage }} of {{ lastPage }}</div>
+  <button
+    mat-stroked-button color="primary"
+    [disabled]="!enabledNext"
+    (click)="photosNextPage()">Next
+  </button>
+  <button
+    mat-stroked-button color="primary"
+    [disabled]="!enabledNext"
+    (click)="photosLastPage()">Last
+  </button>
+</div>

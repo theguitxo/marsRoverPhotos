@@ -11,7 +11,10 @@ const _storeReducer = createReducer (
   on(ACTIONS.loadRoverManifest, (state: StoreState, { rover }) => ({ ..._loadRoverManifest({...state}, rover)})),
   on(ACTIONS.loadRoverManifestSuccess, (state: StoreState, { data, rover }) => ({ ..._loadRoverManifestSuccess({...state}, data, rover) })),
   on(ACTIONS.loadRoverManifestError, (state: StoreState, { rover }) => ({..._loadRoverManifestError({...state}, rover)})),
-  on(ACTIONS.updateCurrentPhotosPage, (state: StoreState, { page, rover }) => ({..._updateCurrentPhotosPage({...state}, page, rover)}))
+  on(ACTIONS.goToFirstPhotosPage, (state: StoreState, { rover }) => ({..._goToFirstPhotosPage({...state}, rover)})),
+  on(ACTIONS.goToPreviousPhotosPage, (state: StoreState, { rover }) => ({..._goToPreviousPhotosPage({...state}, rover)})),
+  on(ACTIONS.goToNextPhotosPage, (state: StoreState, { rover }) => ({..._goToNextPhotosPage({...state}, rover)})),
+  on(ACTIONS.goToLastPhotosPage, (state: StoreState, { rover }) => ({..._goToLastPhotosPage({...state}, rover)}))
 );
 
 export function storeReducer(state: StoreState | undefined, action: Action): StoreState {
@@ -36,10 +39,7 @@ function _setInitialData(state: StoreState, camerasList: RoverCamera[], roversLi
     ...state,
     camerasList,
     roversList: rovers,
-    roverCodesNamesList: rovers.map(item => ({
-      code: item.code,
-      name: item.name
-    })),
+    roverCodesList: rovers.map(item => item.code),
     initialDataReady: true
   };
 }
@@ -103,8 +103,30 @@ function _loadRoverManifestError(state: StoreState, rover: string): StoreState {
   }
 }
 
+function _goToFirstPhotosPage(state: StoreState, rover: string) {
+  return _updateCurrentPhotosPage(state, 1, rover);
+}
+
+function _goToPreviousPhotosPage(state: StoreState, rover: string) {
+  const roverData = state?.roversList?.find(item => item.code === rover)
+  const page = roverData?.currentPhotosPage ?? 1;
+  return _updateCurrentPhotosPage(state, (page - 1), rover);
+}
+
+function _goToNextPhotosPage(state: StoreState, rover: string) {
+  const roverData = state?.roversList?.find(item => item.code === rover)
+  const page = roverData?.currentPhotosPage ?? 1;
+  return _updateCurrentPhotosPage(state, (page + 1), rover);
+}
+
+function _goToLastPhotosPage(state: StoreState, rover: string) {
+  const roverData = state?.roversList?.find(item => item.code === rover)
+  const page = roverData?.photosPages ?? 1;
+  return _updateCurrentPhotosPage(state, page, rover);
+}
+
 function _updateCurrentPhotosPage(state: StoreState, page: number, rover: string): StoreState {
-  const rovers = state?.roversList?.map(item => {
+  const roversList = state?.roversList?.map(item => {
     if (item.code === rover) {
       return {
         ...item,
@@ -115,6 +137,6 @@ function _updateCurrentPhotosPage(state: StoreState, page: number, rover: string
   });
   return {
     ...state,
-    roversList: [...rovers]
+    roversList
   }
 }

@@ -18,7 +18,6 @@ export interface Manifest {
   photos?: ManifestPhoto[];
 }
 
-
 export interface ApiManifest {
   photo_manifest: Manifest
 }

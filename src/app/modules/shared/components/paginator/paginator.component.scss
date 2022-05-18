@@ -1,0 +1,10 @@
+.pagination {
+  padding: 1.5rem .5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  & > * {
+    margin-left: .5rem;
+  }
+}

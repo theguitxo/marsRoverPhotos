@@ -7,8 +7,11 @@ export enum ACTIONS {
   LOAD_ROVER_MANIFEST = '[NASA MARS ROVER PHOTOS] Load rover manifest',
   LOAD_ROVER_MANIFEST_SUCCESS = '[NASA MARS ROVER PHOTOS] Load rover manifest success',
   LOAD_ROVER_MANIFEST_ERROR = '[NASA MARS ROVER PHOTOS] Load rover manifest error',
-  UPDATE_CURRENT_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Update current photos page'
-};
+  GO_TO_FIRST_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to first photos page',
+  GO_TO_PREVIOUS_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to previous photos page',
+  GO_TO_NEXT_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to next photos page',
+  GO_TO_LAST_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to last photos page'
+}
 
 export const setInitialData = createAction (
   ACTIONS.SET_INITIAL_DATA,
@@ -33,7 +36,22 @@ export const loadRoverManifestError = createAction (
   props<{ rover: string }>()
 );
 
-export const updateCurrentPhotosPage = createAction ( 
-  ACTIONS.UPDATE_CURRENT_PHOTOS_PAGE,
-  props<{ rover: string, page: number }>()
+export const goToFirstPhotosPage = createAction (
+  ACTIONS.GO_TO_FIRST_PHOTOS_PAGE,
+  props<{ rover: string }>()
+);
+
+export const goToPreviousPhotosPage = createAction (
+  ACTIONS.GO_TO_PREVIOUS_PHOTOS_PAGE,
+  props<{ rover: string }>()
+);
+
+export const goToNextPhotosPage = createAction (
+  ACTIONS.GO_TO_NEXT_PHOTOS_PAGE,
+  props<{ rover: string }>()
+);
+
+export const goToLastPhotosPage = createAction (
+  ACTIONS.GO_TO_LAST_PHOTOS_PAGE,
+  props<{ rover: string }>()
 );

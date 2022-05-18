@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { CodesNames } from "src/app/models/rovers";
 import { StoreState } from "src/app/store/app/app.state";
 import * as SELECTORS from '../../../../store/app/app.selectors';
 
@@ -12,14 +11,13 @@ import * as SELECTORS from '../../../../store/app/app.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-
-  codesNames!: Observable<CodesNames[]>;
+  codes!: Observable<string[]>;
   
   constructor(
     private readonly store: Store<StoreState>
   ) {}
 
   ngOnInit(): void {
-    this.codesNames = this.store.select(SELECTORS.getCodesNamesList);
+    this.codes = this.store.select(SELECTORS.getCodesList);
   }
 }

@@ -1,5 +1,4 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { CodesNames } from "src/app/models/rovers";
 import { PanelLoadStatus } from "src/app/models/store";
 import { StoreState } from "./app.state";
 import * as ROVER_CONSTANTS from '../../models/constants';
@@ -12,9 +11,9 @@ export const getInitialDataIsReady = createSelector(
   (state: StoreState): boolean => state?.initialDataReady
 );
 
-export const getCodesNamesList = createSelector (
+export const getCodesList = createSelector (
   selectState,
-  (state: StoreState): CodesNames[] => state?.roverCodesNamesList
+  (state: StoreState): string[] => state?.roverCodesList
 );
 
 export const getLoadManifestStatus = createSelector (

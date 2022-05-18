@@ -4,8 +4,7 @@
   <mat-expansion-panel-header>
     <mat-panel-title>
       <div class="title-bar">
-        <img *ngIf="logo" [src]="logo" [alt]="codeName.code">
-        <span>{{ codeName.name }}</span>
+        <img *ngIf="logo" [src]="logo" [alt]="code"><span>{{ code | titlecase }}</span>
       </div>
     </mat-panel-title>
   </mat-expansion-panel-header>
@@ -68,13 +67,17 @@
         </div>
       </mat-tab>
       <mat-tab label="Photos list">
-        <div>
-          <button [disabled]="!(previousButtonEnabled | async)" (click)="photosFirstPage()">First</button>
-          <button [disabled]="!(previousButtonEnabled | async)" (click)="photosPreviousPage()">Previous</button>
-          {{ currentPage | async }} / {{ lastPage }}
-          <button [disabled]="!(nextButtonEnabled | async)" (click)="photosNextPage()">Next</button>
-          <button [disabled]="!lastPage || !(nextButtonEnabled | async)" (click)="photosLastPage()">Last</button>
-        </div>
+        <app-paginator
+          [store]="storeRef"
+          [actionFirst]="firstPageAction"
+          [actionPrevious]="previousPageAction"
+          [actionNext]="nextPageAction"
+          [actionLast]="lastPageAction"
+          [currentPage]="(currentPage | async)!"
+          [lastPage]="(lastPage | async)!"
+          [enabledPrevious]="(previousButtonEnabled | async)!"
+          [enabledNext]="(nextButtonEnabled | async)!">
+        </app-paginator>
         <div class="list-photo-info">
           <div
             *ngFor="let photoInfo of photosList | async" 
@@ -82,6 +85,17 @@
             <app-rover-photos [data]="photoInfo"></app-rover-photos>
           </div>
         </div>
+        <app-paginator
+          [store]="storeRef"
+          [actionFirst]="firstPageAction"
+          [actionPrevious]="previousPageAction"
+          [actionNext]="nextPageAction"
+          [actionLast]="lastPageAction"
+          [currentPage]="(currentPage | async)!"
+          [lastPage]="(lastPage | async)!"
+          [enabledPrevious]="(previousButtonEnabled | async)!"
+          [enabledNext]="(nextButtonEnabled | async)!">
+        </app-paginator>
       </mat-tab>
     </mat-tab-group>
   </div>
