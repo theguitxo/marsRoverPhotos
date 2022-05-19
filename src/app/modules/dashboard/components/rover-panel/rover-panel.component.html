@@ -3,35 +3,39 @@
   (afterCollapse)="afterCollapse()">
   <mat-expansion-panel-header>
     <mat-panel-title>
-      <div class="title-bar">
-        <img *ngIf="logo" [src]="logo" [alt]="code"><span>{{ code | titlecase }}</span>
+      <div class="title-bar__wrapper">
+        <img
+          *ngIf="logo"
+          class="title-bar__img"
+          [src]="logo" [alt]="code">
+        <span>{{ code | titlecase }}</span>
       </div>
     </mat-panel-title>
   </mat-expansion-panel-header>
   <div *ngIf="(hasManifest | async); else noManifest">
     <mat-tab-group mat-align-tabs="start" animationDuration="0ms">
       <mat-tab label="Launching date">
-        <div class="data-box mat-elevation-z4">
-          <div class="icon">
+        <div class="data-box__wrapper mat-elevation-z4">
+          <div class="data-box__icon">
             <mat-icon aria-hidden="false" aria-label="Launch date icon">calendar_month</mat-icon>
           </div>
-          <div class="value">{{ launchDate | async | date: 'fullDate' }}</div>
+          <div class="data-box__value">{{ launchDate | async | date: 'fullDate' }}</div>
         </div>
       </mat-tab>
       <mat-tab label="Landing date">
-        <div class="data-box mat-elevation-z4">
-          <div class="icon">
+        <div class="data-box__wrapper mat-elevation-z4">
+          <div class="data-box__icon">
             <mat-icon aria-hidden="false" aria-label="Landing date icon">calendar_month</mat-icon>
           </div>
-          <div class="value">{{ landingDate | async | date: 'fullDate' }}</div>
+          <div class="data-box__value">{{ landingDate | async | date: 'fullDate' }}</div>
         </div>
       </mat-tab>
       <mat-tab label="Maxim photo date">
-        <div class="data-box mat-elevation-z4">
-          <div class="icon">
+        <div class="data-box__wrapper mat-elevation-z4">
+          <div class="data-box__icon">
             <mat-icon aria-hidden="false" aria-label="Maxim photo date icon">calendar_month</mat-icon>
           </div>
-          <div class="value">{{ maxDate | async | date: 'fullDate' }}</div>
+          <div class="data-box__value">{{ maxDate | async | date: 'fullDate' }}</div>
         </div>
         <div>The most recent Earth date from which photos exist</div>
         <div>
@@ -39,11 +43,11 @@
         </div>
       </mat-tab>
       <mat-tab label="Maxim sol">
-        <div class="data-box mat-elevation-z4">
-          <div class="icon">
+        <div class="data-box__wrapper mat-elevation-z4">
+          <div class="data-box__icon">
             <mat-icon aria-hidden="false" aria-label="Maxim sol icon">calendar_month</mat-icon>
           </div>
-          <div class="value">{{ maxSol | async | number:'0.0-0' }}</div>
+          <div class="data-box__value">{{ maxSol | async | number:'0.0-0' }}</div>
         </div>
         <div>The most recent Martian sol from which photos exist</div>
         <div>
@@ -51,19 +55,19 @@
         </div>
       </mat-tab>
       <mat-tab label="Status">
-        <div class="data-box mat-elevation-z4">
-          <div class="icon">
+        <div class="data-box__wrapper mat-elevation-z4">
+          <div class="data-box__icon">
             <mat-icon aria-hidden="false" aria-label="Status icon">monitor_heart</mat-icon>
           </div>
-          <div class="value">{{ status | async | uppercase }}</div>
+          <div class="data-box__value">{{ status | async | uppercase }}</div>
         </div>
       </mat-tab>
       <mat-tab label="Total photos">
-        <div class="data-box mat-elevation-z4">
-          <div class="icon">
+        <div class="data-box__wrapper mat-elevation-z4">
+          <div class="data-box__icon">
             <mat-icon aria-hidden="false" aria-label="Total photos icon">photo_library</mat-icon>
           </div>
-          <div class="value">{{ totalPhotos | async | number:'0.0-0' }}</div>
+          <div class="data-box__value">{{ totalPhotos | async | number:'0.0-0' }}</div>
         </div>
       </mat-tab>
       <mat-tab label="Photos list">
@@ -78,10 +82,9 @@
           [enabledPrevious]="(previousButtonEnabled | async)!"
           [enabledNext]="(nextButtonEnabled | async)!">
         </app-paginator>
-        <div class="list-photo-info">
-          <div
-            *ngFor="let photoInfo of photosList | async" 
-            class="list-photo-item">
+        <div class="list-photo-info__wrapper">
+          <div *ngFor="let photoInfo of photosList | async" 
+            class="list-photo-info__item">
             <app-rover-photos [data]="photoInfo"></app-rover-photos>
           </div>
         </div>

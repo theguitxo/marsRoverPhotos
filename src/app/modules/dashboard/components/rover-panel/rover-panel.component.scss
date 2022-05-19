@@ -9,55 +9,57 @@ a {
 }
 
 .title-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
-  img {
+  &__img {
     width: 2rem;
     height: 2rem;
-
     border-radius: 50%;
-
     margin-right: 1rem;
   }
 }
 
 .data-box {
-  margin: 1rem;
-  overflow: hidden;
-  border-radius: .25rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
+  &__wrapper {
+    margin: 1rem;
+    overflow: hidden;
+    border-radius: .25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
-  & .icon {
+  &__icon {
     display: flex;
     background-color: #D8D8D8;
   }
 
-  & .icon,
-  & .value {
+  &__icon,
+  &__value {
     padding: .35rem .75rem .5rem .75rem;
   }
 
-  & .value {
+  &__value {
     padding-bottom: .25rem;
   }
 }
 
 .list-photo-info {
-  display: flex;
-  flex-wrap: wrap;
-
-  & .list-photo-item {
-    width: 25%;
-    padding: .5rem;
-    box-sizing: border-box;
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: auto;
 
     @media only screen and (max-width: 600px) {
-      width: 100%;
-      padding: .5rem .25rem;
+      grid-template-columns: 100%;
     }
+  }
+
+  &__item {
+    padding: .5rem;
   }
 }
