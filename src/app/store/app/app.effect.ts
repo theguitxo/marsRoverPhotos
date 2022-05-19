@@ -13,27 +13,6 @@ export class StoreEffects {
     private readonly apiService: ApiService
   ) {}
 
-  routerRequest$ = createEffect(() => this.actions$.pipe(
-      ofType(ROUTER_REQUEST),
-      tap((_r: RouterNavigatedAction) => { /* TODO document why this arrow function is empty */ })
-    ),
-    { dispatch: false }
-  );
-
-  routerNavigation$ = createEffect(() => this.actions$.pipe(
-      ofType(ROUTER_NAVIGATION),
-      tap((_r: RouterNavigatedAction) => { /* TODO document why this arrow function is empty */ })
-    ),
-    { dispatch: false }
-  );
-
-  routerNavigated$ = createEffect(() => this.actions$.pipe(
-      ofType(ROUTER_NAVIGATED),
-      tap((_r: RouterNavigatedAction) => { /* TODO document why this arrow function is empty */ })
-    ),
-    { dispatch: false }
-  );
-
   loadRoverManifest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadRoverManifest),

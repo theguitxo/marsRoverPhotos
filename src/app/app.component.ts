@@ -16,12 +16,10 @@ import * as ROVER_MODEL from './models/rovers';
 // JSON Data files
 import camerasList from '../assets/info/cameras.list.json';
 import roversList from '../assets/info/rovers.list.json';
-import { selectCurrentRoute } from './store/router/router.selectors';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   initialDataIsReady!: Observable<boolean>;
