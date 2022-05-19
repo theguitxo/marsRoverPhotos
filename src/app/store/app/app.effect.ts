@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { RouterNavigatedAction, ROUTER_NAVIGATED, ROUTER_NAVIGATION, ROUTER_REQUEST } from "@ngrx/router-store";
-import { tap, map, switchMap, catchError, of } from "rxjs";
+import { map, switchMap, catchError, of } from "rxjs";
 import { ACTIONS, loadRoverManifest } from "./app.actions";
 import { ApiService } from '../../services/app.services';
 import { ApiManifest } from "src/app/models/manifest";
