@@ -1,6 +1,11 @@
 import { CAMERA } from "./constants";
 import { Manifest } from "./manifest";
 
+export interface RoverPhotosRequest {
+  sol: number;
+  camera?: string;
+}
+
 export interface RoverListItem {
   code: string;
   name: string;
@@ -9,7 +14,7 @@ export interface RoverListItem {
 
 export interface RoverCamera {
   camera: CAMERA;
-  description: string;
+  description?: string;
 }
 
 export interface Rover extends Manifest {

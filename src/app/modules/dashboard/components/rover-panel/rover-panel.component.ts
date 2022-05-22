@@ -7,6 +7,7 @@ import { StoreState } from 'src/app/store/app/app.state';
 import { ManifestPhoto } from 'src/app/models/manifest';
 import { STATUS } from 'src/app/models/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { RoverCamera } from 'src/app/models/rovers';
 
 @Component({
   selector: 'app-rover-panel',
@@ -33,6 +34,7 @@ export class RoverPanelComponent implements OnInit {
   totalPhotos!: Observable<number>;
   photosList!: Observable<ManifestPhoto[]>;
   status!: Observable<STATUS>;
+  camerasList!: Observable<RoverCamera[]>;
 
   firstPageAction!: Action;
   previousPageAction!: Action;
@@ -89,6 +91,7 @@ export class RoverPanelComponent implements OnInit {
     this.totalPhotos = this.getRoverValueFromStore(ROVER_SELECTORS.getTotalPhotos);
     this.photosList = this.getRoverValueFromStore(ROVER_SELECTORS.getPhotosList);
     this.status = this.getRoverValueFromStore(ROVER_SELECTORS.getStatus);
+    this.camerasList = this.getRoverValueFromStore(ROVER_SELECTORS.getCamerasList);
 
     this.currentPage = this.getRoverValueFromStore(ROVER_SELECTORS.getCurrentPhotosPage).pipe(map(value => value ?? 1));
     this.previousButtonEnabled = this.getRoverValueFromStore(ROVER_SELECTORS.getEnablePreviousButton).pipe(map(value => value ?? false));

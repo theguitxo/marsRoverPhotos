@@ -3,6 +3,7 @@ import { PanelLoadStatus } from "src/app/models/store";
 import { StoreState } from "./app.state";
 import * as ROVER_CONSTANTS from '../../models/constants';
 import { ManifestPhoto } from "src/app/models/manifest";
+import { RoverCamera } from "src/app/models/rovers";
 
 export const selectState = createFeatureSelector<StoreState>('store');
 
@@ -91,6 +92,11 @@ export const getMaxDate = createSelector (
 export const getStatus = createSelector (
   selectState,
   (state: StoreState): Map<string, ROVER_CONSTANTS.STATUS> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.STATUS)
+);
+
+export const getCamerasList = createSelector (
+  selectState,
+  (state: StoreState): Map<string, RoverCamera[]> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.CAMERAS)
 );
 
 export const getPhotosList = createSelector (

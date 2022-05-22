@@ -1,10 +1,12 @@
 import { CAMERA, STATUS } from "./constants";
+import { RoverCamera } from "./rovers";
 
 export interface ManifestPhoto {
   sol?: number;
   earth_date?: string;
   total_photos?: number;
   cameras?: CAMERA[];
+  camerasInfo?: RoverCamera[];
 }
 
 export interface Manifest {

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { ApiManifest } from "../models/manifest";
 
 @Injectable({
@@ -16,5 +16,9 @@ export class ApiService {
   loadRoverManifest(rover: string): Observable<ApiManifest> {
     const url = `https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${this.apiKey}`;
     return this.http.get<ApiManifest>(url);
+  }
+
+  loadRoverPhotos(): Observable<any> {
+    return of(null);
   }
 }

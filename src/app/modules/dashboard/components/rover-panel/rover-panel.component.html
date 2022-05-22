@@ -67,6 +67,16 @@
           <div class="data-box__value">{{ status | async | uppercase }}</div>
         </div>
       </mat-tab>
+      <mat-tab label="Cameras">
+        <div
+          *ngFor="let camera of camerasList | async"
+          class="data-box__wrapper mat-elevation-z4">
+          <div class="data-box__icon">
+            <mat-icon aria-hidden="false" aria-label="Total photos icon">photo_camera</mat-icon>
+          </div>
+          <div class="data-box__value"><strong>{{ camera.camera}}</strong>: {{ camera.description }}</div>
+        </div>
+      </mat-tab>
       <mat-tab label="Total photos">
         <div class="data-box__wrapper mat-elevation-z4">
           <div class="data-box__icon">

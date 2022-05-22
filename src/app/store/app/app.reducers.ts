@@ -69,16 +69,22 @@ function _loadRoverManifest(state: StoreState, rover: string): StoreState {
 function _loadRoverManifestSuccess(state: StoreState, data: Manifest, rover: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
-      const photosPages = Math.ceil(data.photos?.length as number / ROVER_CONSTANTS.PHOTOS_PER_PAGE);
       return {
         ...item,
         ...data,
+        photos: data.photos?.map(photo => ({
+            ...photo,
+            camerasInfo: photo.cameras?.map(cam => ({
+              camera: cam,
+              description: state.camerasList.find(i => i.camera === cam)?.description
+            }))
+        })),
         haveManifest: true,
         loadingManifest: false,
         loadedManifest: true,
         errorLoadingManifest: false,
         currentPhotosPage: 1,
-        photosPages
+        photosPages: Math.ceil(data.photos?.length as number / ROVER_CONSTANTS.PHOTOS_PER_PAGE)
       }
     }
     return { ...item }
