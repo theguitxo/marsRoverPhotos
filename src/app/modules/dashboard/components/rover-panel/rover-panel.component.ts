@@ -75,7 +75,7 @@ export class RoverPanelComponent implements OnInit {
   }
 
   private setLogo(): void {
-    this.logo = `../../../../../../../assets/avatar/${this.code}.png`;
+    this.logo = `assets/avatar/${this.code}.png`;
   }
 
   private setSubscriptions(): void {
