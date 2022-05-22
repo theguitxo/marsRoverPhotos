@@ -1,15 +1,21 @@
 import { CommonModule, DatePipe, DecimalPipe } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatTabsModule } from "@angular/material/tabs";
 import { LoaderComponent } from "./components/loader/loader.component";
 import { PaginatorComponent } from "./components/paginator/paginator.component";
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
     CommonModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatTabsModule,
+    MatIconModule
   ],
   declarations: [
     LoaderComponent,
@@ -21,10 +27,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   exports: [
     CommonModule,
-    LoaderComponent,
-    PaginatorComponent,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatTabsModule,
+    MatIconModule,
     DatePipe,
-    DecimalPipe
+    DecimalPipe,
+    LoaderComponent,
+    PaginatorComponent
   ]
 })
 export class SharedModule {}

@@ -14,7 +14,10 @@ const _storeReducer = createReducer (
   on(ACTIONS.goToFirstPhotosPage, (state: StoreState, { rover }) => ({..._goToFirstPhotosPage({...state}, rover)})),
   on(ACTIONS.goToPreviousPhotosPage, (state: StoreState, { rover }) => ({..._goToPreviousPhotosPage({...state}, rover)})),
   on(ACTIONS.goToNextPhotosPage, (state: StoreState, { rover }) => ({..._goToNextPhotosPage({...state}, rover)})),
-  on(ACTIONS.goToLastPhotosPage, (state: StoreState, { rover }) => ({..._goToLastPhotosPage({...state}, rover)}))
+  on(ACTIONS.goToLastPhotosPage, (state: StoreState, { rover }) => ({..._goToLastPhotosPage({...state}, rover)})),
+  on(ACTIONS.expandedPanel, (state: StoreState, { rover }) => ({..._expandPanel({...state}, rover)})),
+  on(ACTIONS.collapsedPanel, (state: StoreState, { rover }) => ({..._collapsedPanel({...state}, rover)})),
+  on(ACTIONS.selectedTabChanged, (state: StoreState, { rover, tab }) => ({..._selectedTabChanged({...state}, rover, tab)}))
 );
 
 export function storeReducer(state: StoreState | undefined, action: Action): StoreState {
@@ -24,6 +27,7 @@ export function storeReducer(state: StoreState | undefined, action: Action): Sto
 function _setInitialData(state: StoreState, camerasList: RoverCamera[], roversList: RoverListItem[]): StoreState {
   const rovers: Rover[] = roversList.map(item => ({
     id: Math.floor((1 + Math.random() * 0x10000)).toString(16),
+    selectedIndex: 0,
     code: item.code,
     name: item.name,
     cameras: item.camera.map(cam => {
@@ -131,6 +135,41 @@ function _updateCurrentPhotosPage(state: StoreState, page: number, rover: string
       return {
         ...item,
         currentPhotosPage: page
+      }
+    }
+    return { ...item }
+  });
+  return {
+    ...state,
+    roversList
+  }
+}
+
+function _expandPanel(state: StoreState, rover: string): StoreState {
+  if (state?.expandedPanel?.indexOf(rover) === -1) {
+    state.expandedPanel = [
+      ...state.expandedPanel,
+      rover
+    ]
+  }
+  return {
+    ...state
+  }
+}
+
+function _collapsedPanel(state: StoreState, rover: string): StoreState {
+  return {
+    ...state,
+    expandedPanel: state.expandedPanel.filter(item => item !== rover)
+  }
+}
+
+function _selectedTabChanged(state: StoreState, rover: string, tab: number): StoreState {
+  const roversList = state?.roversList?.map(item => {
+    if (item.code === rover) {
+      return {
+        ...item,
+        selectedIndex: tab
       }
     }
     return { ...item }

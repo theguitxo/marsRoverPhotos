@@ -6,6 +6,7 @@ import * as ROVER_SELECTORS from '../../../../store/app/app.selectors';
 import { StoreState } from 'src/app/store/app/app.state';
 import { ManifestPhoto } from 'src/app/models/manifest';
 import { STATUS } from 'src/app/models/constants';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-rover-panel',
@@ -17,20 +18,21 @@ export class RoverPanelComponent implements OnInit {
   @Input() code!: string;
 
   logo!: string;
-  isOpened!: boolean;
 
-  hasManifest!: Observable<boolean | undefined>;
-  isLoadingManifest!: Observable<boolean | undefined>;
-  noManifestLoading!: Observable<boolean | undefined>;
+  selectedIndex!: Observable<number>;
+  isExpanded!: Observable<boolean>;
+  hasManifest!: Observable<boolean>;
+  isLoadingManifest!: Observable<boolean>;
+  noManifestLoading!: Observable<boolean>;
   loadAction!: Action;
 
-  launchDate!: Observable<string | undefined>;
-  landingDate!: Observable<string | undefined>;
-  maxDate!: Observable<string | undefined>;
+  launchDate!: Observable<string>;
+  landingDate!: Observable<string>;
+  maxDate!: Observable<string>;
   maxSol!: Observable<string | number>;
-  totalPhotos!: Observable<number | undefined>;
-  photosList!: Observable<ManifestPhoto[] | undefined>;
-  status!: Observable<STATUS | undefined>;
+  totalPhotos!: Observable<number>;
+  photosList!: Observable<ManifestPhoto[]>;
+  status!: Observable<STATUS>;
 
   firstPageAction!: Action;
   previousPageAction!: Action;
@@ -56,11 +58,18 @@ export class RoverPanelComponent implements OnInit {
   }
 
   afterExpand(): void {
-    this.isOpened = true;
+    this.store.dispatch(ROVER_ACTIONS.expandedPanel({ rover: this.code }));
   }
 
   afterCollapse(): void {
-    this.isOpened = false;
+    this.store.dispatch(ROVER_ACTIONS.collapsedPanel({ rover: this.code }));
+  }
+
+  changeSelectedTab(tab: number): void {
+    this.store.dispatch(ROVER_ACTIONS.selectedTabChanged({
+      rover: this.code,
+      tab,
+    }));
   }
 
   private setLogo(): void {
@@ -69,6 +78,8 @@ export class RoverPanelComponent implements OnInit {
 
   private setSubscriptions(): void {
     this.noManifestLoading = this.store.select(ROVER_SELECTORS.getNoManifestLoading);
+    this.selectedIndex = this.getRoverValueFromStore(ROVER_SELECTORS.getSelectedIndex);
+    this.isExpanded = this.getRoverValueFromStore(ROVER_SELECTORS.getExpandedPanelStatus);
     this.hasManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getHasManifest);
     this.isLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadingManifest);
     this.launchDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLaunchDates);

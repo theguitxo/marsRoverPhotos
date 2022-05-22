@@ -15,6 +15,7 @@ export interface RoverCamera {
 export interface Rover extends Manifest {
   id: string;
   code: string;
+  selectedIndex: number;
   cameras: RoverCamera[];
   haveManifest: boolean;
   loadingManifest: boolean;

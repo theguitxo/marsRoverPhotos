@@ -9,4 +9,9 @@
     {{ data.total_photos }}
   </div>
   <div>{{ data.cameras | json }}</div>
+  <div>
+    <button
+      mat-stroked-button color="primary"
+      (click)="viewMore()">View more...</button>
+  </div>
 </div>

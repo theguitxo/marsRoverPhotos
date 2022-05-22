@@ -5,11 +5,13 @@ export interface StoreState {
   roversList: Rover[];
   roverCodesList: string[];
   initialDataReady: boolean;
+  expandedPanel: string[];
 }
 
 export const initialState: StoreState = {
   camerasList: [],
   roversList: [],
   roverCodesList: [],
-  initialDataReady: false
+  initialDataReady: false,
+  expandedPanel: []
 };

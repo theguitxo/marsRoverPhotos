@@ -10,7 +10,10 @@ export enum ACTIONS {
   GO_TO_FIRST_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to first photos page',
   GO_TO_PREVIOUS_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to previous photos page',
   GO_TO_NEXT_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to next photos page',
-  GO_TO_LAST_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to last photos page'
+  GO_TO_LAST_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to last photos page',
+  EXPANDED_PANEL = '[NASA MARS ROVER PHOTOS] Expanded panel',
+  COLLAPSED_PANEL = '[NASA MARS ROVER PHOTOS] Collapsed panel',
+  SELECTED_TAB_CHANGED = '[NASA MARS ROVER PHOTOS] Selected tab change',
 }
 
 export const setInitialData = createAction (
@@ -54,4 +57,19 @@ export const goToNextPhotosPage = createAction (
 export const goToLastPhotosPage = createAction (
   ACTIONS.GO_TO_LAST_PHOTOS_PAGE,
   props<{ rover: string }>()
+);
+
+export const expandedPanel = createAction (
+  ACTIONS.EXPANDED_PANEL,
+  props<{ rover: string }>()
+);
+
+export const collapsedPanel = createAction (
+  ACTIONS.COLLAPSED_PANEL,
+  props<{ rover: string }>()
+);
+
+export const selectedTabChanged = createAction (
+  ACTIONS.SELECTED_TAB_CHANGED,
+  props<{ rover: string, tab: number }>()
 );

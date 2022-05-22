@@ -11,6 +11,7 @@ export enum ROVER_FIELDS {
   LOADED_MANIFEST = 'loadedManifest',
   ERROR_LOADING_MANIFEST = 'errorLoadingManifest',
   CODE = 'code',
+  SELECTED_INDEX = 'selectedIndex',
   HAVE_MANIFEST = 'haveManifest',
   LANDING_DATE = 'landing_date',
   LAUNCH_DATE = 'launch_date',

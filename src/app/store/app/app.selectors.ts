@@ -6,7 +6,7 @@ import { ManifestPhoto } from "src/app/models/manifest";
 
 export const selectState = createFeatureSelector<StoreState>('store');
 
-export const getInitialDataIsReady = createSelector(
+export const getInitialDataIsReady = createSelector (
   selectState,
   (state: StoreState): boolean => state?.initialDataReady
 );
@@ -14,6 +14,18 @@ export const getInitialDataIsReady = createSelector(
 export const getCodesList = createSelector (
   selectState,
   (state: StoreState): string[] => state?.roverCodesList
+);
+
+export const getExpandedPanelStatus = createSelector (
+  selectState,
+  getCodesList,
+  (state: StoreState, list: string[]): Map<string, boolean> => {
+    const data = new Map();
+    list?.forEach(item => {
+      data.set(item, state?.expandedPanel?.indexOf(item) > - 1)
+    });
+    return data;
+  }
 );
 
 export const getLoadManifestStatus = createSelector (
@@ -29,6 +41,11 @@ export const getLoadManifestStatus = createSelector (
     });
     return data;
   }
+);
+
+export const getSelectedIndex = createSelector (
+  selectState,
+  (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.SELECTED_INDEX)
 );
 
 export const getIsLoadingManifest = createSelector (
