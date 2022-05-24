@@ -86,21 +86,26 @@
         </div>
       </mat-tab>
       <mat-tab label="Photos list">
-        <app-paginator
-          [store]="storeRef"
-          [actionFirst]="firstPageAction"
-          [actionPrevious]="previousPageAction"
-          [actionNext]="nextPageAction"
-          [actionLast]="lastPageAction"
-          [currentPage]="(currentPage | async)!"
-          [lastPage]="(lastPage | async)!"
-          [enabledPrevious]="(previousButtonEnabled | async)!"
-          [enabledNext]="(nextButtonEnabled | async)!">
-        </app-paginator>
+        <div class="data-box__list-header">
+          <div class="p-1">
+            <strong>Note:</strong> You can see the photos for only a camera by clicking in the button with their name in the card actions section, or see all of them by clicking the ALL button.
+          </div>
+          <app-paginator
+            [store]="storeRef"
+            [actionFirst]="firstPageAction"
+            [actionPrevious]="previousPageAction"
+            [actionNext]="nextPageAction"
+            [actionLast]="lastPageAction"
+            [currentPage]="(currentPage | async)!"
+            [lastPage]="(lastPage | async)!"
+            [enabledPrevious]="(previousButtonEnabled | async)!"
+            [enabledNext]="(nextButtonEnabled | async)!">
+          </app-paginator>
+        </div>
         <div class="list-photo-info__wrapper">
           <div *ngFor="let photoInfo of photosList | async" 
             class="list-photo-info__item">
-            <app-rover-photos [data]="photoInfo"></app-rover-photos>
+            <app-rover-photos [data]="photoInfo" [code]="code"></app-rover-photos>
           </div>
         </div>
         <app-paginator

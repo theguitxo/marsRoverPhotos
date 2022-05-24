@@ -7,6 +7,9 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabsModule } from "@angular/material/tabs";
 import { LoaderComponent } from "./components/loader/loader.component";
 import { PaginatorComponent } from "./components/paginator/paginator.component";
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -15,7 +18,10 @@ import { PaginatorComponent } from "./components/paginator/paginator.component";
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatDividerModule,
+    MatListModule
   ],
   declarations: [
     LoaderComponent,
@@ -32,6 +38,9 @@ import { PaginatorComponent } from "./components/paginator/paginator.component";
     MatExpansionModule,
     MatTabsModule,
     MatIconModule,
+    MatCardModule,
+    MatDividerModule,
+    MatListModule,
     DatePipe,
     DecimalPipe,
     LoaderComponent,

@@ -46,6 +46,12 @@ a {
   &__value {
     padding-bottom: .25rem;
   }
+
+  &__list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .list-photo-info {

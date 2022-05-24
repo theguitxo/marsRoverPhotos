@@ -7,9 +7,13 @@ const routes: Routes = [
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
-    path: 'details',
+    path: 'details/:code/:sol',
     loadChildren: () => import('./modules/details/details.module').then(m => m.DetailsModule)
   },
+  {
+    path: 'details/:code/:sol/:camera',
+    loadChildren: () => import('./modules/details/details.module').then(m => m.DetailsModule)
+  },  
   {
     path: '',
     redirectTo: 'dashboard',

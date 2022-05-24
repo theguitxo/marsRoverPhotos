@@ -6,7 +6,6 @@ import * as ROVER_SELECTORS from '../../../../store/app/app.selectors';
 import { StoreState } from 'src/app/store/app/app.state';
 import { ManifestPhoto } from 'src/app/models/manifest';
 import { STATUS } from 'src/app/models/constants';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { RoverCamera } from 'src/app/models/rovers';
 
 @Component({
