@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { StoreState } from "src/app/store/app/app.state";
+import { StoreState } from "../../../../store/app/app.state";
 import * as SELECTORS from '../../../../store/app/app.selectors';
 
 @Component({

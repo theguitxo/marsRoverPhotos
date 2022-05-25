@@ -5,10 +5,9 @@
   <mat-expansion-panel-header>
     <mat-panel-title>
       <div class="title-bar__wrapper">
-        <img
-          *ngIf="logo"
-          class="title-bar__img"
-          [src]="logo" [alt]="code">
+        <div
+          class="title-bar__avatar"
+          [style.backgroundImage]="'url(\'assets/avatar/' + code + '.png\')'"></div>
         <span>{{ code | titlecase }}</span>
       </div>
     </mat-panel-title>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
-import { CAMERA } from "src/app/models/constants";
-import { ManifestPhoto } from "src/app/models/manifest";
+import { CAMERA } from "../../../../models/constants";
+import { ManifestPhoto } from "../../../../models/manifest";
 
 @Component({
   selector: 'app-rover-photos',

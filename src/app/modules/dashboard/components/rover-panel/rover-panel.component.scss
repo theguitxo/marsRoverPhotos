@@ -15,11 +15,12 @@ a {
     justify-content: flex-start;
   }
 
-  &__img {
+  &__avatar {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
     margin-right: 1rem;
+    background-size: cover;
   }
 }
 
@@ -51,6 +52,10 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    & > * {
+      flex: 1 1;
+    }
   }
 }
 

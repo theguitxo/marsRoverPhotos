@@ -3,10 +3,10 @@ import { Action, Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import * as ROVER_ACTIONS from '../../../../store/app/app.actions';
 import * as ROVER_SELECTORS from '../../../../store/app/app.selectors';
-import { StoreState } from 'src/app/store/app/app.state';
-import { ManifestPhoto } from 'src/app/models/manifest';
-import { STATUS } from 'src/app/models/constants';
-import { RoverCamera } from 'src/app/models/rovers';
+import { StoreState } from '../../../../store/app/app.state';
+import { ManifestPhoto } from '../../../../models/manifest';
+import { STATUS } from '../../../../models/constants';
+import { RoverCamera } from '../../../../models/rovers';
 
 @Component({
   selector: 'app-rover-panel',
@@ -16,8 +16,6 @@ import { RoverCamera } from 'src/app/models/rovers';
 })
 export class RoverPanelComponent implements OnInit {
   @Input() code!: string;
-
-  logo!: string;
 
   selectedIndex!: Observable<number>;
   isExpanded!: Observable<boolean>;
@@ -55,7 +53,6 @@ export class RoverPanelComponent implements OnInit {
   ngOnInit(): void {
     this.setActions();
     this.setSubscriptions();
-    this.setLogo();
   }
 
   afterExpand(): void {
@@ -71,10 +68,6 @@ export class RoverPanelComponent implements OnInit {
       rover: this.code,
       tab,
     }));
-  }
-
-  private setLogo(): void {
-    this.logo = `assets/avatar/${this.code}.png`;
   }
 
   private setSubscriptions(): void {
