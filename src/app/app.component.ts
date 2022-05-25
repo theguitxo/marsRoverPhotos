@@ -29,8 +29,8 @@ export class AppComponent implements OnInit {
     this.initialDataIsReady = this.store.select(SELECTORS.getInitialDataIsReady);
 
     combineLatest([
-      ajax.getJSON('/assets/info/cameras.list.json'),
-      ajax.getJSON('/assets/info/rovers.list.json')
+      ajax.getJSON('assets/info/cameras.list.json'),
+      ajax.getJSON('assets/info/rovers.list.json')
     ]).pipe(take(1)).subscribe(([camerasList, roversList]) => {
       this.store.dispatch(ACTIONS.setInitialData({
         camerasList: camerasList as ROVER_MODEL.RoverCamera[],
