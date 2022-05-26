@@ -28,4 +28,6 @@ export interface Rover extends Manifest {
   errorLoadingManifest: boolean;
   photosPages?: number;
   currentPhotosPage?: number;
+  errorCode?: string;
+  errorMessage?: string;
 }

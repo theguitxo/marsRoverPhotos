@@ -23,3 +23,31 @@ export interface Manifest {
 export interface ApiManifest {
   photo_manifest: Manifest
 }
+
+export interface APIPhotoCameraResponse {
+  id: number;
+  name: CAMERA;
+  rover_id: number;
+  full_name: string;
+}
+
+export interface APIPhotoRoverResponse {
+  id: number;
+  name: string;
+  landing_date: string;
+  launch_date: string;
+  status: STATUS;
+}
+
+export interface APIPhotoDataReponse {
+  id: number;
+  sol: number;
+  camera: APIPhotoCameraResponse;
+  img_src: string;
+  earth_date: string;
+  rover: APIPhotoRoverResponse;
+}
+
+export interface APIPhotoResponse {
+  photos: APIPhotoDataReponse[];
+}

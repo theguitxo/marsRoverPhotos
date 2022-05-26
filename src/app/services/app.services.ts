@@ -7,7 +7,8 @@ import { ApiManifest } from "../models/manifest";
   providedIn: 'root'
 })
 export class ApiService {
-  apiKey = 'jDOUZcRQgxp0zk4cGyqUeMOtb2ba2UVq2UHpLgG8';
+  // apiKey = 'jDOUZcRQgxp0zk4cGyqUeMOtb2ba2UVq2UHpLgG8';
+  apiKey = 'DEMO_KEY';
 
   constructor(
     private readonly http: HttpClient

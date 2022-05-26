@@ -22,7 +22,9 @@ export enum ROVER_FIELDS {
   TOTAL_PHOTOS = 'total_photos',
   PHOTOS = 'photos',
   PHOTOS_PAGES = 'photosPages',
-  CURRENT_PHOTOS_PAGE = 'currentPhotosPage'
+  CURRENT_PHOTOS_PAGE = 'currentPhotosPage',
+  ERROR_CODE = 'errorCode',
+  ERROR_MESSAGE = 'errorMessage'
 }
 
 export const PHOTOS_PER_PAGE = 40;

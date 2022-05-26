@@ -123,9 +123,13 @@
   </div>
   <ng-template #noManifest>
     <app-loader
-      *ngIf="(isExpanded | async) && (noManifestLoading | async) && !(isLoadingManifest | async)"
+      *ngIf="(isExpanded | async) && (noManifestLoading | async) && !(isLoadingManifest | async) && !(isLoadedManifest | async)"
       [store]="storeRef"
       [action]="loadAction">
     </app-loader>
   </ng-template>
 </mat-expansion-panel>
+<app-error-dialog-launcher
+  *ngIf="isErrorLoadingManifest | async"ç
+  (onClose)="closeErrorModal()">
+</app-error-dialog-launcher>

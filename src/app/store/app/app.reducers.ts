@@ -10,7 +10,9 @@ const _storeReducer = createReducer (
   on(ACTIONS.setInitialData, (state: StoreState, { camerasList, roversList }) => ({..._setInitialData({...state}, camerasList, roversList)})),
   on(ACTIONS.loadRoverManifest, (state: StoreState, { rover }) => ({ ..._loadRoverManifest({...state}, rover)})),
   on(ACTIONS.loadRoverManifestSuccess, (state: StoreState, { data, rover }) => ({ ..._loadRoverManifestSuccess({...state}, data, rover) })),
-  on(ACTIONS.loadRoverManifestError, (state: StoreState, { rover }) => ({..._loadRoverManifestError({...state}, rover)})),
+  on(ACTIONS.loadRoverManifestError, (state: StoreState, { rover, errorCode, errorMessage }) => ({..._loadRoverManifestError({...state}, rover, errorCode, errorMessage)})),
+  on(ACTIONS.resetRoverManifestLoad, (state: StoreState, { rover }) => ({ ..._resetRoverManifestLoad({...state}, rover)})),
+  on(ACTIONS.resetErrorRover, (state: StoreState, { rover }) => ({ ..._resetErrorRover({...state}, rover)})),
   on(ACTIONS.goToFirstPhotosPage, (state: StoreState, { rover }) => ({..._goToFirstPhotosPage({...state}, rover)})),
   on(ACTIONS.goToPreviousPhotosPage, (state: StoreState, { rover }) => ({..._goToPreviousPhotosPage({...state}, rover)})),
   on(ACTIONS.goToNextPhotosPage, (state: StoreState, { rover }) => ({..._goToNextPhotosPage({...state}, rover)})),
@@ -55,7 +57,9 @@ function _loadRoverManifest(state: StoreState, rover: string): StoreState {
         ...item,
         loadingManifest: true,
         loadedManifest: false,
-        errorLoadingManifest: false
+        errorLoadingManifest: false,
+        errorCode: '',
+        errorMessage: ''
       }
     }
     return { ...item }
@@ -95,14 +99,51 @@ function _loadRoverManifestSuccess(state: StoreState, data: Manifest, rover: str
   }
 }
 
-function _loadRoverManifestError(state: StoreState, rover: string): StoreState {
+function _loadRoverManifestError(state: StoreState, rover: string, errorCode: string, errorMessage: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
       return {
         ...item,
         loadingManifest: false,
         loadedManifest: true,
-        errorLoadingManifest: true
+        errorLoadingManifest: true,
+        errorCode,
+        errorMessage
+      }
+    }
+    return { ...item }
+  });
+  return {
+    ...state,
+    roversList: [...rovers]
+  }
+}
+
+function _resetRoverManifestLoad(state: StoreState, rover: string): StoreState {
+  const rovers = state?.roversList?.map(item => {
+    if (item.code === rover) {
+      return {
+        ...item,
+        loadingManifest: false,
+        loadedManifest: false,
+        errorLoadingManifest: false
+      }
+    }
+    return { ...item }
+  });
+  return {
+    ...state,
+    roversList: [...rovers]
+  }
+}
+
+function _resetErrorRover(state: StoreState, rover: string): StoreState {
+  const rovers = state?.roversList?.map(item => {
+    if (item.code === rover) {
+      return {
+        ...item,
+        errorCode: '',
+        errorMessage: ''
       }
     }
     return { ...item }

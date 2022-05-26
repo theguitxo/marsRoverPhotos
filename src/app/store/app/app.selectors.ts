@@ -54,6 +54,16 @@ export const getIsLoadingManifest = createSelector (
   (state: StoreState): Map<string, boolean> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LOADING_MANIFEST)
 );
 
+export const getIsLoadedManifest = createSelector (
+  selectState,
+  (state: StoreState): Map<string, boolean> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LOADED_MANIFEST)
+);
+
+export const getIsErrorLoadingManifest = createSelector (
+  selectState,
+  (state: StoreState): Map<string, boolean> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.ERROR_LOADING_MANIFEST)
+);
+
 export const getHasManifest = createSelector (
   selectState,
   (state: StoreState): Map<string, boolean> =>  createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.HAVE_MANIFEST)

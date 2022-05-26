@@ -10,6 +10,9 @@ import { PaginatorComponent } from "./components/paginator/paginator.component";
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ErrorDialogLauncherComponent } from "./components/error-dialog/error-dialog-launcher/error-dialog-launcher.component";
+import { ErrorDialogPopupComponent } from "./components/error-dialog/error-dialog-popup/error-dialog-popup.component";
 
 @NgModule({
   imports: [
@@ -21,11 +24,14 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatCardModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
   ],
   declarations: [
     LoaderComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ErrorDialogLauncherComponent,
+    ErrorDialogPopupComponent
   ],
   providers: [
     DatePipe,
@@ -41,10 +47,13 @@ import { MatListModule } from '@angular/material/list';
     MatCardModule,
     MatDividerModule,
     MatListModule,
+    MatDialogModule,
     DatePipe,
     DecimalPipe,
     LoaderComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ErrorDialogLauncherComponent,
+    ErrorDialogPopupComponent
   ]
 })
 export class SharedModule {}

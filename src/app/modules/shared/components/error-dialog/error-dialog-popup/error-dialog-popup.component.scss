@@ -1,0 +1,12 @@
+.alert-icon {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  &__image {
+    transform: scale(2);
+    color: orange;
+  }
+}

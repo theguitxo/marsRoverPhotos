@@ -21,6 +21,8 @@ export class RoverPanelComponent implements OnInit {
   isExpanded!: Observable<boolean>;
   hasManifest!: Observable<boolean>;
   isLoadingManifest!: Observable<boolean>;
+  isLoadedManifest!: Observable<boolean>;
+  isErrorLoadingManifest!: Observable<boolean>;
   noManifestLoading!: Observable<boolean>;
   loadAction!: Action;
 
@@ -70,12 +72,20 @@ export class RoverPanelComponent implements OnInit {
     }));
   }
 
+  closeErrorModal(): void {
+    this.store.dispatch(ROVER_ACTIONS.collapsedPanel({ rover: this.code }));
+    this.store.dispatch(ROVER_ACTIONS.resetErrorRover({ rover: this.code }));
+    this.store.dispatch(ROVER_ACTIONS.resetRoverManifestLoad({ rover: this.code }));
+  }
+
   private setSubscriptions(): void {
     this.noManifestLoading = this.store.select(ROVER_SELECTORS.getNoManifestLoading);
     this.selectedIndex = this.getRoverValueFromStore(ROVER_SELECTORS.getSelectedIndex);
     this.isExpanded = this.getRoverValueFromStore(ROVER_SELECTORS.getExpandedPanelStatus);
     this.hasManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getHasManifest);
     this.isLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadingManifest);
+    this.isLoadedManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadedManifest);
+    this.isErrorLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsErrorLoadingManifest);
     this.launchDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLaunchDates);
     this.landingDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLandingDates);
     this.maxDate = this.getRoverValueFromStore(ROVER_SELECTORS.getMaxDate);

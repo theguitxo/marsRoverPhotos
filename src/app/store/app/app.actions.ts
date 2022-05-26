@@ -7,6 +7,8 @@ export enum ACTIONS {
   LOAD_ROVER_MANIFEST = '[NASA MARS ROVER PHOTOS] Load rover manifest',
   LOAD_ROVER_MANIFEST_SUCCESS = '[NASA MARS ROVER PHOTOS] Load rover manifest success',
   LOAD_ROVER_MANIFEST_ERROR = '[NASA MARS ROVER PHOTOS] Load rover manifest error',
+  RESET_ROVER_MANIFEST_LOAD = '[NASA MARS ROVER PHOTOS] Reset rover manifest load',
+  RESET_ERROR_ROVER = '[NASA MARS ROVER PHOTOS] Reset error rover',
   GO_TO_FIRST_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to first photos page',
   GO_TO_PREVIOUS_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to previous photos page',
   GO_TO_NEXT_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to next photos page',
@@ -36,6 +38,20 @@ export const loadRoverManifestSuccess = createAction (
 
 export const loadRoverManifestError = createAction (
   ACTIONS.LOAD_ROVER_MANIFEST_ERROR,
+  props<{
+    rover: string,
+    errorCode: string,
+    errorMessage: string
+  }>()
+);
+
+export const resetRoverManifestLoad = createAction (
+  ACTIONS.RESET_ROVER_MANIFEST_LOAD,
+  props<{ rover: string }>()
+);
+
+export const resetErrorRover = createAction (
+  ACTIONS.RESET_ERROR_ROVER,
   props<{ rover: string }>()
 );
 

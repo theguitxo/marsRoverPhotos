@@ -22,10 +22,14 @@ export class StoreEffects {
             data: data.photo_manifest,
             rover: action.rover
           })),
-          catchError((_e) => of({
-            type: ACTIONS.LOAD_ROVER_MANIFEST_ERROR,
-            rover: action.rover
-          }))
+          catchError((e) => {
+            return of({
+              type: ACTIONS.LOAD_ROVER_MANIFEST_ERROR,
+              rover: action.rover,
+              errorCode: e?.error?.error?.code,
+              errorMessage: e?.error?.error?.message
+            })
+          })
         )
       )
     )
