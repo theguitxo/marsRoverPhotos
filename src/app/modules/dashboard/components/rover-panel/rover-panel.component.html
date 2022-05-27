@@ -130,6 +130,7 @@
   </ng-template>
 </mat-expansion-panel>
 <app-error-dialog-launcher
-  *ngIf="isErrorLoadingManifest | async"ç
+  *ngIf="isErrorLoadingManifest | async"
+  [errorData]="(errorLoadingManifestData | async)!"
   (onClose)="closeErrorModal()">
 </app-error-dialog-launcher>

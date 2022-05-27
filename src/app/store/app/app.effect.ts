@@ -23,11 +23,13 @@ export class StoreEffects {
             rover: action.rover
           })),
           catchError((e) => {
+            const errorCode = e?.error?.error?.code ?? e?.name;
+            const errorMessage = e?.error?.error?.message ?? e?.message;
             return of({
               type: ACTIONS.LOAD_ROVER_MANIFEST_ERROR,
               rover: action.rover,
-              errorCode: e?.error?.error?.code,
-              errorMessage: e?.error?.error?.message
+              errorCode,
+              errorMessage
             })
           })
         )

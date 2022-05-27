@@ -1,13 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ErrorDialogPopupComponent } from "../error-dialog-popup/error-dialog-popup.component";
 import { take } from 'rxjs/operators';
+import { ErrorDialogData } from "src/app/models/error";
 
 @Component({
   selector: 'app-error-dialog-launcher',
   template: ''
 })
 export class ErrorDialogLauncherComponent implements OnInit {
+  @Input() errorData!: ErrorDialogData;
   @Output() onClose = new EventEmitter<void>();
 
   constructor(
@@ -16,10 +18,8 @@ export class ErrorDialogLauncherComponent implements OnInit {
 
   ngOnInit(): void {
     const dialogRef = this.dialog.open(ErrorDialogPopupComponent, {
-      data: {
-        errorCode: 'hola',
-        errorMessage: 'hola'
-      }
+      data: this.errorData,
+      disableClose: true
     });
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(_r => {

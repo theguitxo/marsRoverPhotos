@@ -7,6 +7,7 @@ import { StoreState } from '../../../../store/app/app.state';
 import { ManifestPhoto } from '../../../../models/manifest';
 import { STATUS } from '../../../../models/constants';
 import { RoverCamera } from '../../../../models/rovers';
+import { ErrorDialogData } from 'src/app/models/error';
 
 @Component({
   selector: 'app-rover-panel',
@@ -23,6 +24,7 @@ export class RoverPanelComponent implements OnInit {
   isLoadingManifest!: Observable<boolean>;
   isLoadedManifest!: Observable<boolean>;
   isErrorLoadingManifest!: Observable<boolean>;
+  errorLoadingManifestData!: Observable<ErrorDialogData>;
   noManifestLoading!: Observable<boolean>;
   loadAction!: Action;
 
@@ -86,6 +88,7 @@ export class RoverPanelComponent implements OnInit {
     this.isLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadingManifest);
     this.isLoadedManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadedManifest);
     this.isErrorLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsErrorLoadingManifest);
+    this.errorLoadingManifestData = this.getRoverValueFromStore(ROVER_SELECTORS.getErrorLoadingManifestData);
     this.launchDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLaunchDates);
     this.landingDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLandingDates);
     this.maxDate = this.getRoverValueFromStore(ROVER_SELECTORS.getMaxDate);

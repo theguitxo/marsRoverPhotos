@@ -4,6 +4,7 @@ import { StoreState } from "./app.state";
 import * as ROVER_CONSTANTS from '../../models/constants';
 import { ManifestPhoto } from "src/app/models/manifest";
 import { RoverCamera } from "src/app/models/rovers";
+import { ErrorDialogData } from "src/app/models/error";
 
 export const selectState = createFeatureSelector<StoreState>('store');
 
@@ -38,6 +39,20 @@ export const getLoadManifestStatus = createSelector (
         loading: rover.loadingManifest,
         loaded: rover.loadedManifest,
         error: rover.errorLoadingManifest
+      });
+    });
+    return data;
+  }
+);
+
+export const getErrorLoadingManifestData = createSelector (
+  selectState,
+  (state: StoreState): Map<string, ErrorDialogData> => {
+    const data = new Map();
+    state?.roversList?.forEach(rover => {
+      data.set(rover.code, {
+        errorCode: rover.errorCode,
+        errorMessage: rover.errorMessage
       });
     });
     return data;
