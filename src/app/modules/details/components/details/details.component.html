@@ -1,5 +1,51 @@
-<div class="details__wrapper">
-  <button
-    mat-stroked-button color="primary"
-    (click)="goToDashboard()">Back to dashboard</button>
-</div>
+<ng-container *ngIf="(hasDetailsData | async)">
+  <div class="photos-list__bar">
+    <div>
+      <button
+        mat-stroked-button color="primary"
+        (click)="goToDashboard()">
+        <div class="photos-list__back-button-content">
+          <mat-icon aria-hidden="false" aria-label="Chevron left icon">chevron_left</mat-icon>
+          <span>Back to dashboard</span>
+        </div>
+      </button>
+    </div>
+    <div>
+      <app-paginator
+        [store]="storeRef"
+        [usePageSelector]="true"
+        [currentPage]="(currentPage | async)!"
+        [totalPages]="(totalPages | async)!"
+        (pageChange)="handlePageChange($event)">
+      </app-paginator>
+    </div>
+  </div>
+
+  <div class="photos-list__wrapper">
+    <div *ngFor="let detail of (detailsData | async); let idx = index"
+      class="photos-list__item">
+      <mat-card class="mat-elevation-z2">
+        <mat-card-title>{{ detail.id }}</mat-card-title>
+        <mat-card-subtitle>{{ detail.earthDate | date: 'fullDate' }} (Sol: {{ detail.sol}})</mat-card-subtitle>
+        <mat-card-content>
+          <img mat-card-image [src]="detail.imgSrc" [alt]="idx">
+          <div class="photos-list__camera-info">
+            <span class="photos-list__camera-code">{{ detail.camera }}:</span> {{ detail.cameraFullName }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</ng-container>
+
+<app-loader
+  *ngIf="!(loaded | async) && !(hasDetailsData | async)"
+  [store]="storeRef"
+  [action]="loadCamPhotosAction">
+</app-loader>
+
+<app-error-dialog-launcher
+  *ngIf="errorLoading | async"
+  [errorData]="(errorData | async)!"
+  (onClose)="goToDashboard()">
+</app-error-dialog-launcher>

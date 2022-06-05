@@ -1,5 +1,47 @@
-.details {
+.photos-list {
+  &__bar {
+    padding: .25rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__back-button-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__wrapper {
-    padding: 1rem;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: auto;
+
+    @media only screen and (max-width: 600px) {
+      grid-template-columns: 100%;
+    }
+  }
+
+  &__item {
+    padding: .5rem;
+
+    & img {
+      width: 100%;
+      height: auto;
+    }
+
+    & .mat-card-image {
+      margin: 0 !important;
+    }
+  }
+
+  &__camera {
+    &-info {
+      padding: .5rem 0;
+    }
+    &-code {
+      font-weight: bold;
+    }
   }
 }
+

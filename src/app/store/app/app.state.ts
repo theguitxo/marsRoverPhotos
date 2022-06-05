@@ -6,6 +6,11 @@ export interface StoreState {
   roverCodesList: string[];
   initialDataReady: boolean;
   expandedPanel: string[];
+  loading: boolean;
+  loaded: boolean;
+  errorLoading: boolean;
+  errorCode: string;
+  errorMessage: string;
 }
 
 export const initialState: StoreState = {
@@ -13,5 +18,10 @@ export const initialState: StoreState = {
   roversList: [],
   roverCodesList: [],
   initialDataReady: false,
-  expandedPanel: []
+  expandedPanel: [],
+  loading: false,
+  loaded: false,
+  errorLoading: false,
+  errorCode: '',
+  errorMessage: ''
 };

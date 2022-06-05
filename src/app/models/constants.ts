@@ -28,3 +28,10 @@ export enum ROVER_FIELDS {
 }
 
 export const PHOTOS_PER_PAGE = 40;
+export const DETAIL_PHOTOS_PER_PAGE = 50;
+
+export enum DETAILS_PARAMS {
+  CODE = 'code',
+  SOL = 'sol',
+  CAMERA = 'camera'
+}

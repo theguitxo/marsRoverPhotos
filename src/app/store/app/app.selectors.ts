@@ -1,12 +1,47 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { PanelLoadStatus } from "src/app/models/store";
+import { PanelLoadStatus } from "../../models/store";
 import { StoreState } from "./app.state";
 import * as ROVER_CONSTANTS from '../../models/constants';
-import { ManifestPhoto } from "src/app/models/manifest";
-import { RoverCamera } from "src/app/models/rovers";
-import { ErrorDialogData } from "src/app/models/error";
+import { ManifestPhoto } from "../../models/manifest";
+import { Rover, RoverCamera, RoverPhoto } from "../../models/rovers";
+import { ErrorDialogData } from "../../models/error";
+import { selectRouteParam, selectRouteParams } from "../router/router.selectors";
+import { Params } from "@angular/router";
 
 export const selectState = createFeatureSelector<StoreState>('store');
+
+export const getDetailsRover = createSelector (
+  selectRouteParam(ROVER_CONSTANTS.DETAILS_PARAMS.CODE),
+  (code: string | undefined): string => code!
+);
+
+export const getHasDetailsMinimumParams = createSelector (
+  selectRouteParams,
+  (params: Params): boolean => (!!(params['code']) && !!(params['sol']))
+);
+
+export const getIsLoading = createSelector (
+  selectState,
+  (state: StoreState): boolean => state?.loading
+);
+
+export const getIsLoaded = createSelector (
+  selectState,
+  (state: StoreState): boolean => state?.loaded
+);
+
+export const getIsErrorLoading = createSelector (
+  selectState,
+  (state: StoreState): boolean => state?.errorLoading
+);
+
+export const getErrorData = createSelector (
+  selectState,
+  (state: StoreState): ErrorDialogData => ({
+    errorCode: state?.errorCode,
+    errorMessage: state?.errorMessage
+  })
+);
 
 export const getInitialDataIsReady = createSelector (
   selectState,
@@ -187,6 +222,56 @@ export const getEnableNextButton = createSelector (
   }
 );
 
+export const getDetailRoverPhotosList = createSelector (
+  selectState,
+  selectRouteParams,
+  (state: StoreState, params: Params): RoverPhoto[] => {
+    const notPagined = getNotPaginatedPhotoList(state, params);
+
+    const roverPage = state?.roversList?.find(roverPageItem => roverPageItem.code === params[ROVER_CONSTANTS.DETAILS_PARAMS.CODE]);
+    if (roverPage) {
+      const init = (roverPage.roverPhotosCurrentPage! - 1) * ROVER_CONSTANTS.DETAIL_PHOTOS_PER_PAGE;
+      const end = (init + ROVER_CONSTANTS.DETAIL_PHOTOS_PER_PAGE);
+      return notPagined.slice(init, end);
+    }
+    return [];
+  }
+);
+
+export const getHasDetailRoverPhotosList = createSelector (
+  selectState,
+  selectRouteParams,
+  (state: StoreState, params: Params): boolean => {
+    const rover = state?.roversList?.find(roverItem => roverItem.code === params[ROVER_CONSTANTS.DETAILS_PARAMS.CODE]);
+    const camsRover = rover?.photos?.find(photosRover => photosRover.sol === +params[ROVER_CONSTANTS.DETAILS_PARAMS.SOL])?.cameras;
+    const camsRoverPhotos = Array.from(new Set(rover?.roverPhotos?.
+      filter(roverSol => roverSol.sol === +params[ROVER_CONSTANTS.DETAILS_PARAMS.SOL]).
+      map(roverPhoto => roverPhoto.camera)));
+
+    if (!(!!params[ROVER_CONSTANTS.DETAILS_PARAMS.CAMERA])) {
+      return (camsRover?.length === camsRoverPhotos?.length);
+    }
+
+    return (camsRoverPhotos?.indexOf(params[ROVER_CONSTANTS.DETAILS_PARAMS.CAMERA]) > -1);
+  }
+);
+
+export const getRoverPhotoListTotalPages = createSelector (
+  selectState,
+  selectRouteParams,
+  (state: StoreState, params: Params): number => {
+    return Math.ceil(getNotPaginatedPhotoList(state, params)?.length / ROVER_CONSTANTS.DETAIL_PHOTOS_PER_PAGE);
+  }
+);
+
+export const getDetailsCurrentPage = createSelector (
+  selectState,
+  selectRouteParams,
+  (state: StoreState, params: Params): number => {
+    return state?.roversList?.find(item => item.code === params["code"])?.roverPhotosCurrentPage!;
+  }
+);
+
 function createValueMap(state: StoreState, key: string): Map<string, any> {
   const data = new Map();
   state?.roversList?.forEach(rover => {
@@ -198,4 +283,17 @@ function createValueMap(state: StoreState, key: string): Map<string, any> {
     }
   });
   return data;
+}
+
+function getNotPaginatedPhotoList(state: StoreState, params: Params ): RoverPhoto[] {
+  const allPhotos: RoverPhoto[] = <RoverPhoto[]>state?.roversList?.
+  filter((filterRover: Rover) => filterRover.code === params[ROVER_CONSTANTS.DETAILS_PARAMS.CODE]).
+  map((photosRover: Rover) => photosRover.roverPhotos)?.flat();
+  
+  return allPhotos.filter((photoRover: RoverPhoto) => {
+    if (!!params[ROVER_CONSTANTS.DETAILS_PARAMS.CAMERA]) {
+      return (photoRover.sol === +params[ROVER_CONSTANTS.DETAILS_PARAMS.SOL] && photoRover.camera === params[ROVER_CONSTANTS.DETAILS_PARAMS.CAMERA]);
+    }
+    return (photoRover.sol === +params[ROVER_CONSTANTS.DETAILS_PARAMS.SOL]);
+  });
 }

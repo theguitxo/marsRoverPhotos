@@ -7,7 +7,8 @@ import { StoreState } from '../../../../store/app/app.state';
 import { ManifestPhoto } from '../../../../models/manifest';
 import { STATUS } from '../../../../models/constants';
 import { RoverCamera } from '../../../../models/rovers';
-import { ErrorDialogData } from 'src/app/models/error';
+import { ErrorDialogData } from '../../../../models/error';
+import { Utils } from '../../../../modules/shared/utils.class';
 
 @Component({
   selector: 'app-rover-panel',
@@ -82,26 +83,26 @@ export class RoverPanelComponent implements OnInit {
 
   private setSubscriptions(): void {
     this.noManifestLoading = this.store.select(ROVER_SELECTORS.getNoManifestLoading);
-    this.selectedIndex = this.getRoverValueFromStore(ROVER_SELECTORS.getSelectedIndex);
-    this.isExpanded = this.getRoverValueFromStore(ROVER_SELECTORS.getExpandedPanelStatus);
-    this.hasManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getHasManifest);
-    this.isLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadingManifest);
-    this.isLoadedManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsLoadedManifest);
-    this.isErrorLoadingManifest = this.getRoverValueFromStore(ROVER_SELECTORS.getIsErrorLoadingManifest);
-    this.errorLoadingManifestData = this.getRoverValueFromStore(ROVER_SELECTORS.getErrorLoadingManifestData);
-    this.launchDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLaunchDates);
-    this.landingDate = this.getRoverValueFromStore(ROVER_SELECTORS.getLandingDates);
-    this.maxDate = this.getRoverValueFromStore(ROVER_SELECTORS.getMaxDate);
-    this.maxSol = this.getRoverValueFromStore(ROVER_SELECTORS.getMaxSol);
-    this.totalPhotos = this.getRoverValueFromStore(ROVER_SELECTORS.getTotalPhotos);
-    this.photosList = this.getRoverValueFromStore(ROVER_SELECTORS.getPhotosList);
-    this.status = this.getRoverValueFromStore(ROVER_SELECTORS.getStatus);
-    this.camerasList = this.getRoverValueFromStore(ROVER_SELECTORS.getCamerasList);
+    this.selectedIndex = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getSelectedIndex, this.code);
+    this.isExpanded = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getExpandedPanelStatus, this.code);
+    this.hasManifest = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getHasManifest, this.code);
+    this.isLoadingManifest = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getIsLoadingManifest, this.code);
+    this.isLoadedManifest = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getIsLoadedManifest, this.code);
+    this.isErrorLoadingManifest = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getIsErrorLoadingManifest, this.code);
+    this.errorLoadingManifestData = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getErrorLoadingManifestData, this.code);
+    this.launchDate = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getLaunchDates, this.code);
+    this.landingDate = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getLandingDates, this.code);
+    this.maxDate = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getMaxDate, this.code);
+    this.maxSol = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getMaxSol, this.code);
+    this.totalPhotos = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getTotalPhotos, this.code);
+    this.photosList = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getPhotosList, this.code);
+    this.status = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getStatus, this.code);
+    this.camerasList = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getCamerasList, this.code);
 
-    this.currentPage = this.getRoverValueFromStore(ROVER_SELECTORS.getCurrentPhotosPage).pipe(map(value => value ?? 1));
-    this.previousButtonEnabled = this.getRoverValueFromStore(ROVER_SELECTORS.getEnablePreviousButton).pipe(map(value => value ?? false));
-    this.nextButtonEnabled = this.getRoverValueFromStore(ROVER_SELECTORS.getEnableNextButton).pipe(map(value => value ?? false));
-    this.lastPage = this.getRoverValueFromStore(ROVER_SELECTORS.getPhotosPages).pipe(map(value => value ?? 1));
+    this.currentPage = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getCurrentPhotosPage, this.code).pipe(map(value => value ?? 1));
+    this.previousButtonEnabled = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getEnablePreviousButton, this.code).pipe(map(value => value ?? false));
+    this.nextButtonEnabled = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getEnableNextButton, this.code).pipe(map(value => value ?? false));
+    this.lastPage = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getPhotosPages, this.code).pipe(map(value => value ?? 1));
   }
 
   private setActions(): void {
@@ -110,9 +111,5 @@ export class RoverPanelComponent implements OnInit {
     this.previousPageAction = ROVER_ACTIONS.goToPreviousPhotosPage({ rover: this.code });
     this.nextPageAction = ROVER_ACTIONS.goToNextPhotosPage({ rover: this.code });
     this.lastPageAction = ROVER_ACTIONS.goToLastPhotosPage({ rover: this.code });
-  }
-
-  private getRoverValueFromStore(selector:any): Observable<any> {
-    return this.store.select(selector).pipe(map((data) => data.get(this.code))); 
   }
 }

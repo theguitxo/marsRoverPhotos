@@ -13,6 +13,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorDialogLauncherComponent } from "./components/error-dialog/error-dialog-launcher/error-dialog-launcher.component";
 import { ErrorDialogPopupComponent } from "./components/error-dialog/error-dialog-popup/error-dialog-popup.component";
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { ErrorDialogPopupComponent } from "./components/error-dialog/error-dialo
     MatCardModule,
     MatDividerModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   declarations: [
     LoaderComponent,
@@ -48,6 +50,7 @@ import { ErrorDialogPopupComponent } from "./components/error-dialog/error-dialo
     MatDividerModule,
     MatListModule,
     MatDialogModule,
+    MatSelectModule,
     DatePipe,
     DecimalPipe,
     LoaderComponent,

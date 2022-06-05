@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Manifest } from "src/app/models/manifest";
+import { APIPhotoResponse, Manifest } from "src/app/models/manifest";
 import { RoverCamera, RoverListItem } from "../../models/rovers";
 
 export enum ACTIONS {
@@ -13,9 +13,14 @@ export enum ACTIONS {
   GO_TO_PREVIOUS_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to previous photos page',
   GO_TO_NEXT_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to next photos page',
   GO_TO_LAST_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to last photos page',
+  GO_TO_PHOTOS_PAGE = '[NASA MARS ROVER PHOTOS] Go to photos page',
   EXPANDED_PANEL = '[NASA MARS ROVER PHOTOS] Expanded panel',
   COLLAPSED_PANEL = '[NASA MARS ROVER PHOTOS] Collapsed panel',
   SELECTED_TAB_CHANGED = '[NASA MARS ROVER PHOTOS] Selected tab change',
+  RESET_LOAD_STATUS = '[NASA MARS ROVER PHOTOS] Reset load status',
+  LOAD_CAM_PHOTOS = '[NASA MARS ROVER PHOTOS] Load cam photos',
+  LOAD_CAM_PHOTOS_SUCCESS = '[NASA MARS ROVER PHOTOS] Load cam photos success',
+  LOAD_CAM_PHOTOS_ERROR = '[NASA MARS ROVER PHOTOS] Load cam photos error',
 }
 
 export const setInitialData = createAction (
@@ -75,6 +80,14 @@ export const goToLastPhotosPage = createAction (
   props<{ rover: string }>()
 );
 
+export const goToPhotosPage = createAction (
+  ACTIONS.GO_TO_PHOTOS_PAGE,
+  props<{
+    rover: string,
+    page: number
+  }>()
+);
+
 export const expandedPanel = createAction (
   ACTIONS.EXPANDED_PANEL,
   props<{ rover: string }>()
@@ -88,4 +101,29 @@ export const collapsedPanel = createAction (
 export const selectedTabChanged = createAction (
   ACTIONS.SELECTED_TAB_CHANGED,
   props<{ rover: string, tab: number }>()
+);
+
+export const resetLoadStatus = createAction (
+  ACTIONS.RESET_LOAD_STATUS
+);
+
+export const loadCamPhotos = createAction (
+  ACTIONS.LOAD_CAM_PHOTOS
+);
+
+export const loadCamPhotosSuccess = createAction (
+  ACTIONS.LOAD_CAM_PHOTOS_SUCCESS,
+  props<{
+    camera: string,
+    rover: string,
+    data: APIPhotoResponse
+  }>()
+);
+
+export const loadCamPhotosError = createAction (
+  ACTIONS.LOAD_CAM_PHOTOS_ERROR,
+  props<{
+    errorCode: string,
+    errorMessage: string
+  }>()
 );

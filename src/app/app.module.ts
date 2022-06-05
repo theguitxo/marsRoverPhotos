@@ -9,7 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { storeReducer } from './store/app/app.reducers';
-import { StoreEffects } from './store/app/app.effect';
+import { StoreEffects } from './store/app/app.effects';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

@@ -1,23 +1,36 @@
 <div class="pagination">
-  <button
-    mat-stroked-button color="primary"
-    [disabled]="!enabledPrevious"
-    (click)="photosFirstPage()">First
-  </button>
-  <button
-    mat-stroked-button color="primary"
-    [disabled]="!enabledPrevious"
-    (click)="photosPreviousPage()">Previous
-  </button>
-  <div>Page {{ currentPage }} of {{ lastPage }}</div>
-  <button
-    mat-stroked-button color="primary"
-    [disabled]="!enabledNext"
-    (click)="photosNextPage()">Next
-  </button>
-  <button
-    mat-stroked-button color="primary"
-    [disabled]="!enabledNext"
-    (click)="photosLastPage()">Last
-  </button>
+  <ng-container *ngIf="useButtons">
+    <button
+      mat-stroked-button color="primary"
+      [disabled]="!enabledPrevious"
+      (click)="photosFirstPage()">First
+    </button>
+    <button
+      mat-stroked-button color="primary"
+      [disabled]="!enabledPrevious"
+      (click)="photosPreviousPage()">Previous
+    </button>
+    <div>Page {{ currentPage }} of {{ lastPage }}</div>
+    <button
+      mat-stroked-button color="primary"
+      [disabled]="!enabledNext"
+      (click)="photosNextPage()">Next
+    </button>
+    <button
+      mat-stroked-button color="primary"
+      [disabled]="!enabledNext"
+      (click)="photosLastPage()">Last
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="usePageSelector">
+    <mat-form-field appearance="fill">
+      <mat-label>Page (of {{ totalPages }})</mat-label>
+      <mat-select
+        [value]="currentPage"
+        (selectionChange)="changePage($event)">
+        <mat-option *ngFor="let page of pagesList" [value]="page">{{ page }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
 </div>
