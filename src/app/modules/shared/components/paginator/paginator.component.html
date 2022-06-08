@@ -1,22 +1,26 @@
 <div class="pagination">
   <ng-container *ngIf="useButtons">
     <button
+      class="js-button-first"
       mat-stroked-button color="primary"
       [disabled]="!enabledPrevious"
       (click)="photosFirstPage()">First
     </button>
     <button
+      class="js-button-previous"
       mat-stroked-button color="primary"
       [disabled]="!enabledPrevious"
       (click)="photosPreviousPage()">Previous
     </button>
-    <div>Page {{ currentPage }} of {{ lastPage }}</div>
+    <div>Page {{ currentPage }} of {{ totalPages }}</div>
     <button
+      class="js-button-next"
       mat-stroked-button color="primary"
       [disabled]="!enabledNext"
       (click)="photosNextPage()">Next
     </button>
     <button
+      class="js-button-last"
       mat-stroked-button color="primary"
       [disabled]="!enabledNext"
       (click)="photosLastPage()">Last

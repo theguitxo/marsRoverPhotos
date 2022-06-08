@@ -45,7 +45,7 @@ export class RoverPanelComponent implements OnInit {
   currentPage!: Observable<number>;
   previousButtonEnabled!: Observable<boolean>;
   nextButtonEnabled!: Observable<boolean>;
-  lastPage!: Observable<number>;
+  totalPages!: Observable<number>;
 
   get storeRef(): Store<StoreState> {
     return this.store;
@@ -102,7 +102,7 @@ export class RoverPanelComponent implements OnInit {
     this.currentPage = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getCurrentPhotosPage, this.code).pipe(map(value => value ?? 1));
     this.previousButtonEnabled = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getEnablePreviousButton, this.code).pipe(map(value => value ?? false));
     this.nextButtonEnabled = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getEnableNextButton, this.code).pipe(map(value => value ?? false));
-    this.lastPage = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getPhotosPages, this.code).pipe(map(value => value ?? 1));
+    this.totalPages = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getPhotosPages, this.code).pipe(map(value => value ?? 1));
   }
 
   private setActions(): void {

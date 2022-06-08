@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatSelectChange } from "@angular/material/select";
 import { Store } from "@ngrx/store";
@@ -18,7 +18,6 @@ export class PaginatorComponent implements OnChanges {
   @Input() actionLast!: TypedAction<string>;
 
   @Input() currentPage!: number;
-  @Input() lastPage!: number;
   @Input() totalPages!: number;
   @Input() enabledPrevious!: boolean;
   @Input() enabledNext!: boolean;
@@ -30,10 +29,6 @@ export class PaginatorComponent implements OnChanges {
 
   pageSelector!: FormControl;
   pagesList!: number[];
-
-  constructor(
-    private readonly cd: ChangeDetectorRef
-  ) {}
 
   ngOnChanges(): void {
     if (this.totalPages) {
