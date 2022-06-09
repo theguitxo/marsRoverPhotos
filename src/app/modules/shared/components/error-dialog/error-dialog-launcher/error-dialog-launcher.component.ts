@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ErrorDialogPopupComponent } from "../error-dialog-popup/error-dialog-popup.component";
 import { take } from 'rxjs/operators';
-import { ErrorDialogData } from "src/app/models/error";
+import { ErrorDialogData } from "../../../../../models/error";
 
 @Component({
   selector: 'app-error-dialog-launcher',

@@ -48,6 +48,6 @@ describe('Loader Component', () => {
     component = fixture.componentInstance;
     component.store = store;
     fixture.detectChanges();
-    expect(spyDispatch).toBeCalled();
+    expect(spyDispatch).toHaveBeenCalled();
   });
 });
