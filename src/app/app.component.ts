@@ -14,17 +14,30 @@ import { ajax } from 'rxjs/ajax';
 // MODELS
 import * as ROVER_MODEL from './models/rovers';
 
+/**
+ * Root component for the app
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
+  /**
+   * To check if initial data of rovers is ready
+   */
   initialDataIsReady!: Observable<boolean>;
 
+  /**
+   * Constructor for root component
+   * @param store Store for app data
+   */
   constructor(
     private readonly store: Store<StoreState>
   ) {}
 
+  /**
+   * Loads initial data of rovers for the app
+   */
   ngOnInit(): void {
     this.initialDataIsReady = this.store.select(SELECTORS.getInitialDataIsReady);
 
