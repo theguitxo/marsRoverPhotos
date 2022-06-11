@@ -1,5 +1,5 @@
 /**
- * Types of rover's cameras
+ * Types of rover cameras
  */
 export type CAMERA = 
   'FHAZ' | 'RHAZ' | 'MAST' | 'CHEMCAM' | 'MAHLI' | 'MARDI' | 'NAVCAM' | 'PANCAM' | 'MINITES' |
