@@ -15,6 +15,9 @@ import { ErrorDialogLauncherComponent } from "./components/error-dialog/error-di
 import { ErrorDialogPopupComponent } from "./components/error-dialog/error-dialog-popup/error-dialog-popup.component";
 import { MatSelectModule } from '@angular/material/select';
 
+/**
+ * Module for shared features
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -5,6 +5,9 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { RoverPanelComponent } from "./components/rover-panel/rover-panel.component";
 import { RoverPhotosComponent } from "./components/rover-photos/rover-photos.component";
 
+/**
+ * Module for the dashboard that show the panels of rovers with their information
+ */
 @NgModule({
   imports: [
     SharedModule,
