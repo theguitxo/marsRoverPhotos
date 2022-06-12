@@ -1,4 +1,11 @@
 <div class="p-1">
+  <h1>NASA Mars Rovers Photos</h1>
+  <div class="pb-2">
+    With this application you can browse, using a NASA API, a lot of photos received from the rovers launched to Mars
+  </div>
+  <div class="pb-2">
+    The code documentation (components, services, ...) for this project is available <a href="./documentation/index.html" target="_blank">here</a>
+  </div>
   <mat-accordion [multi]="true">
     <app-rover-panel
       *ngFor="let code of codes | async"

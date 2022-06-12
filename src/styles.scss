@@ -1,6 +1,12 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: inherit;
+}
+
 .p {
   &-1 {
     padding: 1rem;
@@ -10,6 +16,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
   &-2 {
     padding: 2rem;
+  }
+  &b-2 {
+    padding-bottom: 2rem;
   }
 }
 

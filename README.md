@@ -1,27 +1,23 @@
-# NasaMarsRoverPhotos
+# NASA Mars Rovers Photos
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
+![Screenshot of the application](./screenshot.png)
+
+This application shows information about the photos taken by the rovers that the NASA launched to Mars.
+
+For make this uses an API provided by the NASA.
+
+You can get more information about the NASA APIs in this url:
+
+[https://api.nasa.gov/](https://api.nasa.gov/)
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This is a typical Angular application, so, you can run in your local machine running the development server.
 
-## Code scaffolding
+For this you must navigate to the folder of the application, run, if it's necessary, `npm i` for install the dependencies and run the server with `npm start`. When the server is up, you can navigate to `http://localhost:4200` to load the application in a browser.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Deployed version
 
-## Build
+You can use a deployed version of the application in this url:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+[https://theguitxo.github.io/marsRoverPhotos/](https://theguitxo.github.io/marsRoverPhotos/)
