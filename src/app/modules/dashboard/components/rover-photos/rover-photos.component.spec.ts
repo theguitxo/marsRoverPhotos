@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MockStore, provideMockStore } from "@ngrx/store/testing";
+import { provideMockStore } from "@ngrx/store/testing";
 import { ROVER_CURIOSITY } from "../../../../mocks/constants.mocks";
 import { CAMERA } from "../../../../models/constants";
 import { ManifestPhotoMock } from "../../../../mocks/manifest.photo.mocks";
@@ -18,7 +18,6 @@ const routerMock = {
 describe('RoverPhotosComponent', () =>{
   let component: RoverPhotosComponent;
   let fixture: ComponentFixture<RoverPhotosComponent>;
-  let store: MockStore;
   let router: Router;
 
   beforeEach(() => {
@@ -45,7 +44,6 @@ describe('RoverPhotosComponent', () =>{
 
   beforeEach(() => {
     router = TestBed.inject(Router);
-    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(RoverPhotosComponent);
     component = fixture.componentInstance;
 

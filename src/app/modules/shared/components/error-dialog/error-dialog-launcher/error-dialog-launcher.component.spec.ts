@@ -16,7 +16,6 @@ describe('ErrorDialogLauncherComponent', () => {
 
   let component: ErrorDialogLauncherComponent;
   let fixture: ComponentFixture<ErrorDialogLauncherComponent>;
-  let dialog: MatDialog;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,7 +36,6 @@ describe('ErrorDialogLauncherComponent', () => {
   });
 
   beforeEach(() => {
-    dialog = TestBed.inject(MatDialog);
     fixture = TestBed.createComponent(ErrorDialogLauncherComponent);
     component = fixture.componentInstance;
 
