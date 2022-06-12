@@ -5,6 +5,9 @@ import * as ACTIONS from "./app.actions";
 import { initialState, StoreState } from "./app.state";
 import * as ROVER_CONSTANTS from '../../models/constants';
 
+/**
+ * Creates a reducer to manage the state changes in the store
+ */
 const _storeReducer = createReducer (
   initialState,
   on(ACTIONS.setInitialData, (state: StoreState, { camerasList, roversList }) => ({..._setInitialData({...state}, camerasList, roversList)})),
@@ -27,10 +30,23 @@ const _storeReducer = createReducer (
   on(ACTIONS.loadCamPhotosError, (state: StoreState, { errorCode, errorMessage }) => ({..._loadCamPhotosError({...state}, errorCode, errorMessage)}))
 );
 
+/**
+ * Store reducer to manage the state
+ * @param {StoreState} state state before execute the action
+ * @param {Action} action action to apply with the reducer to modify the state
+ * @returns {StoreState} state after execute the action
+ */
 export function storeReducer(state: StoreState | undefined, action: Action): StoreState {
   return _storeReducer(state, action);
 }
 
+/**
+ * Sets the initial data for rovers and cameras into the state
+ * @param {StoreState} state state before execute the action
+ * @param {RoverCamera[]} camerasList list of cameras for add to the state
+ * @param {RoverListItem[]} roversList list of rover for add to the state
+ * @returns {StoreState} state after execute the action
+ */
 function _setInitialData(state: StoreState, camerasList: RoverCamera[], roversList: RoverListItem[]): StoreState {
   const rovers: Rover[] = roversList.map(item => ({
     id: Math.floor((1 + Math.random() * 0x10000)).toString(16),
@@ -56,6 +72,12 @@ function _setInitialData(state: StoreState, camerasList: RoverCamera[], roversLi
   };
 }
 
+/**
+ * Loads a manifest of a rover: start of the process
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action
+ */
 function _loadRoverManifest(state: StoreState, rover: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
@@ -76,6 +98,13 @@ function _loadRoverManifest(state: StoreState, rover: string): StoreState {
   }
 }
 
+/**
+ * Loads a manifest of a rover: finished with success
+ * @param {StoreState} state state before execute the action 
+ * @param {Manifest} data data of the manifest received from the API
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action
+ */
 function _loadRoverManifestSuccess(state: StoreState, data: Manifest, rover: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
@@ -105,6 +134,14 @@ function _loadRoverManifestSuccess(state: StoreState, data: Manifest, rover: str
   }
 }
 
+/**
+ * Loads a manifest of a rover: finished with error
+ * @param {StoreState} state state before execute the action 
+ * @param {string} rover code of the rover to apply the action
+ * @param {string} errorCode code of error to show in the modal
+ * @param {string} errorMessage message of error to show in the modal
+ * @returns {StoreState} state after execute the action
+ */
 function _loadRoverManifestError(state: StoreState, rover: string, errorCode: string, errorMessage: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
@@ -125,6 +162,12 @@ function _loadRoverManifestError(state: StoreState, rover: string, errorCode: st
   }
 }
 
+/**
+ * Resets the indicators for load manifest data of a rover
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action 
+ */
 function _resetRoverManifestLoad(state: StoreState, rover: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
@@ -143,6 +186,12 @@ function _resetRoverManifestLoad(state: StoreState, rover: string): StoreState {
   }
 }
 
+/**
+ * Resets the error values for modal of a rover
+ * @param {StoreState} state state before execute the action 
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action
+ */
 function _resetErrorRover(state: StoreState, rover: string): StoreState {
   const rovers = state?.roversList?.map(item => {
     if (item.code === rover) {
@@ -160,28 +209,59 @@ function _resetErrorRover(state: StoreState, rover: string): StoreState {
   }
 }
 
+/**
+ * Sets the current page as the first in the list of information photos for a rover
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action 
+ */
 function _goToFirstPhotosPage(state: StoreState, rover: string): StoreState {
   return _updateCurrentPhotosPage(state, 1, rover);
 }
 
+/**
+ * Sets the current page as the previous in the list of information photos for a rover
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action
+ */
 function _goToPreviousPhotosPage(state: StoreState, rover: string): StoreState {
   const roverData = state?.roversList?.find(item => item.code === rover)
   const page = roverData?.currentPhotosPage ?? 1;
   return _updateCurrentPhotosPage(state, (page - 1), rover);
 }
 
+/**
+ * Sets the current page as the next in the list of information photos for a rover
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action 
+ */
 function _goToNextPhotosPage(state: StoreState, rover: string): StoreState {
   const roverData = state?.roversList?.find(item => item.code === rover)
   const page = roverData?.currentPhotosPage ?? 1;
   return _updateCurrentPhotosPage(state, (page + 1), rover);
 }
 
+/**
+ * Sets the current page as the last in the list of information photos for a rover
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action
+ */
 function _goToLastPhotosPage(state: StoreState, rover: string): StoreState {
   const roverData = state?.roversList?.find(item => item.code === rover)
   const page = roverData?.photosPages ?? 1;
   return _updateCurrentPhotosPage(state, page, rover);
 }
 
+/**
+ * Sets the current page with an specific value in the list of information photos for a rover
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover to apply the action
+ * @param {number} page new page to ser as the current
+ * @returns {StoreState} state after execute the action
+ */
 function _goToPhotosPage(state: StoreState, rover: string, page: number): StoreState {
   return {
     ...state,
@@ -197,6 +277,13 @@ function _goToPhotosPage(state: StoreState, rover: string, page: number): StoreS
   }
 }
 
+/**
+ * Update the current page in the photos list for a panel
+ * @param {StoreState} state state before execute the action
+ * @param {number} page new current page for the list
+ * @param {string} rover code of the rover to apply the action
+ * @returns {StoreState} state after execute the action 
+ */
 function _updateCurrentPhotosPage(state: StoreState, page: number, rover: string): StoreState {
   const roversList = state?.roversList?.map(item => {
     if (item.code === rover) {
@@ -213,6 +300,12 @@ function _updateCurrentPhotosPage(state: StoreState, page: number, rover: string
   }
 }
 
+/**
+ * Adds a panel that has expanded from the expanded panels list
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover who their panel has been expanded
+ * @returns {StoreState} state after execute the action 
+ */
 function _expandPanel(state: StoreState, rover: string): StoreState {
   if (state?.expandedPanel?.indexOf(rover) === -1) {
     state.expandedPanel = [
@@ -225,6 +318,12 @@ function _expandPanel(state: StoreState, rover: string): StoreState {
   }
 }
 
+/**
+ * Removes a panel that has collapsed from the expanded panels list
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover code of the rover who their panel has been collapsed
+ * @returns {StoreState} state after execute the action
+ */
 function _collapsedPanel(state: StoreState, rover: string): StoreState {
   return {
     ...state,
@@ -232,6 +331,13 @@ function _collapsedPanel(state: StoreState, rover: string): StoreState {
   }
 }
 
+/**
+ * Sets the selected tab in a rover panel
+ * @param {StoreState} state state before execute the action
+ * @param {string} rover the rover who has changed the tab
+ * @param {number} tab number of the selected tab
+ * @returns {StoreState} state after execute the action
+ */
 function _selectedTabChanged(state: StoreState, rover: string, tab: number): StoreState {
   const roversList = state?.roversList?.map(item => {
     if (item.code === rover) {
@@ -248,6 +354,11 @@ function _selectedTabChanged(state: StoreState, rover: string, tab: number): Sto
   }
 }
 
+/**
+ * Reset the values for loading photos lists
+ * @param {StoreState} state state before execute the action
+ * @returns {StoreState} state after execute the action
+ */
 function _resetLoadStatus(state: StoreState): StoreState {
   return {
     ...state,
@@ -263,6 +374,11 @@ function _resetLoadStatus(state: StoreState): StoreState {
   }
 }
 
+/**
+ * Load photos for a rover: start the process
+ * @param {StoreState} state state before execute the action
+ * @returns {StoreState} state after execute the action 
+ */
 function _loadCamPhotos(state: StoreState): StoreState {
   return {
     ...state,
@@ -274,6 +390,14 @@ function _loadCamPhotos(state: StoreState): StoreState {
   }
 }
 
+/**
+ * Load photos for a rover: finished with success
+ * @param {StoreState} state state before execute the action
+ * @param {APIPhotoReponse} data data with the list of photos received from the API
+ * @param {string} rover code of the rover that it loaded the photos list
+ * @param {string} camera code of the camera that it loaded the photos list
+ * @returns {StoreState} state after execute the action 
+ */
 function _loadCamPhotosSuccess(state: StoreState, data: APIPhotoResponse, rover: string, camera: string): StoreState {
   const list: RoverPhoto[] = data.photos.map(item => ({
     camera: item.camera.name,
@@ -307,6 +431,13 @@ function _loadCamPhotosSuccess(state: StoreState, data: APIPhotoResponse, rover:
   }
 }
 
+/**
+ * Load photos for a rover: finished with error
+ * @param {StoreState} state state before execute the action
+ * @param {string} errorCode error code for the dialog modal
+ * @param {string} errorMessage error message for the dialog modal
+ * @returns {StoreState} state after execute the action
+ */
 function _loadCamPhotosError(state: StoreState, errorCode: string, errorMessage: string): StoreState {
   return {
     ...state,

@@ -11,6 +11,9 @@ import { RoverPhotosRequest } from "../models/rovers";
   providedIn: 'root'
 })
 export class ApiService {
+  /**
+   * API Key for use with the end-points
+   */
   apiKey = 'jDOUZcRQgxp0zk4cGyqUeMOtb2ba2UVq2UHpLgG8';
 
   /**

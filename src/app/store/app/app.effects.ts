@@ -12,14 +12,26 @@ import { ACTIONS, loadCamPhotos, loadRoverManifest } from "./app.actions";
 import * as SELECTORS from './app.selectors';
 import { DETAILS_PARAMS } from "../../models/constants";
 
+/**
+ * Effects for store actions that needs to use services of the API
+ */
 @Injectable()
 export class StoreEffects {
+  /**
+   * Constructor of the service
+   * @param {Actions} actions$ actions of the store
+   * @param {ApiService} apiService service to call the endpoints of the Nasa API
+   * @param {Store<StoreState>} store Store for app data
+   */
   constructor(
     private readonly actions$: Actions,
     private readonly apiService: ApiService,
     private readonly store: Store<StoreState>
   ) {}
 
+  /**
+   * Effect to execute when the app finish navigation to one page
+   */
   routerNavigated$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
@@ -30,6 +42,9 @@ export class StoreEffects {
     { useEffectsErrorHandler: false }
   );
 
+  /**
+   * Effect to load a rover manifest
+   */
   loadRoverManifest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadRoverManifest),
@@ -55,6 +70,9 @@ export class StoreEffects {
     )
   );
 
+  /**
+   * Effect to load the list of photos for a rover
+   */
   loadCamPhotos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCamPhotos),
