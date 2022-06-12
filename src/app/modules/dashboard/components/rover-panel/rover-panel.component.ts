@@ -10,6 +10,9 @@ import { RoverCamera } from '../../../../models/rovers';
 import { ErrorDialogData } from '../../../../models/error';
 import { Utils } from '../../../../modules/shared/utils.class';
 
+/**
+ * Component that shows a panel with information about a rover
+ */
 @Component({
   selector: 'app-rover-panel',
   templateUrl: './rover-panel.component.html',
@@ -17,57 +20,155 @@ import { Utils } from '../../../../modules/shared/utils.class';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoverPanelComponent implements OnInit {
+  /**
+   * Code of the rover that contains the panel
+   */
   @Input() code!: string;
 
+  /**
+   * Index of the selected tab into the panel
+   */
   selectedIndex!: Observable<number>;
+  /**
+   * Indicator that the panel is expanded or not
+   */
   isExpanded!: Observable<boolean>;
+  /**
+   * Indicator if panel has the manifest information loaded
+   */
   hasManifest!: Observable<boolean>;
+  /**
+   * Indicator that the manifest is loading
+   */
   isLoadingManifest!: Observable<boolean>;
+  /**
+   * Indicator that the manifest is loaded
+   */  
   isLoadedManifest!: Observable<boolean>;
+  /**
+   * Indicator that an error was occurred loading the manifest
+   */
   isErrorLoadingManifest!: Observable<boolean>;
+  /**
+   * Information about the error occurred loading the manifest
+   */
   errorLoadingManifestData!: Observable<ErrorDialogData>;
+  /**
+   * Indicator if the manifest isn't loaded
+   */
   noManifestLoading!: Observable<boolean>;
+  /**
+   * Action to dispatch for load the manifest
+   */
   loadAction!: Action;
 
+  /**
+   * Launch date of the rover
+   */
   launchDate!: Observable<string>;
+  /**
+   * Landing date of the rover
+   */
   landingDate!: Observable<string>;
+  /**
+   * Last earth date with photo
+   */
   maxDate!: Observable<string>;
+  /**
+   * Last martian sol with photo
+   */
   maxSol!: Observable<string | number>;
+  /**
+   * Total photos taken by the rover
+   */
   totalPhotos!: Observable<number>;
+  /**
+   * List of days that the rover took a photo
+   */
   photosList!: Observable<ManifestPhoto[]>;
+  /**
+   * Status of the rover
+   */
   status!: Observable<STATUS>;
+  /**
+   * List of cameras availables for the rover
+   */
   camerasList!: Observable<RoverCamera[]>;
 
+  /**
+   * Action to dispatch on press 'First' button
+   */
   firstPageAction!: Action;
+  /**
+   * Action to dispatch on press 'Previous' button
+   */  
   previousPageAction!: Action;
+  /**
+   * Action to dispatch on press 'Next' button
+   */
   nextPageAction!: Action;
+  /**
+   * Action to dispatch on press 'Last' button
+   */  
   lastPageAction!: Action;
+  /**
+   * Current page to show the list
+   */
   currentPage!: Observable<number>;
+  /**
+   * If the 'previous' and 'first' buttons can be enabled
+   */
   previousButtonEnabled!: Observable<boolean>;
+  /**
+   * If the 'next' and 'last' buttons can be enabled
+   */  
   nextButtonEnabled!: Observable<boolean>;
+  /**
+   * Total pages of the information photos list 
+   */
   totalPages!: Observable<number>;
 
+  /**
+   * Returns a reference to the store
+   */
   get storeRef(): Store<StoreState> {
     return this.store;
   }
 
+  /**
+   * Constructor for the component
+   * @param {Store<StoreState>} store Store for app data
+   */
   constructor(
     private readonly store: Store<StoreState>
   ) {}
 
+  /**
+   * Angular life cycle: sets the actions needed in the component and inits the subscriptions
+   */
   ngOnInit(): void {
     this.setActions();
     this.setSubscriptions();
   }
 
+  /**
+   * Dispatchs an action after a rover panel is expanded
+   */
   afterExpand(): void {
     this.store.dispatch(ROVER_ACTIONS.expandedPanel({ rover: this.code }));
   }
 
+  /**
+   * Dispatchs an action after a rover panel is collapsed
+   */
   afterCollapse(): void {
     this.store.dispatch(ROVER_ACTIONS.collapsedPanel({ rover: this.code }));
   }
 
+  /**
+   * Changes the selected tab of a rover panel
+   * @param {number} tab number of the selected tab
+   */
   changeSelectedTab(tab: number): void {
     this.store.dispatch(ROVER_ACTIONS.selectedTabChanged({
       rover: this.code,
@@ -75,12 +176,18 @@ export class RoverPanelComponent implements OnInit {
     }));
   }
 
+  /**
+   * Closes the modal that shows information about an error
+   */
   closeErrorModal(): void {
     this.store.dispatch(ROVER_ACTIONS.collapsedPanel({ rover: this.code }));
     this.store.dispatch(ROVER_ACTIONS.resetErrorRover({ rover: this.code }));
     this.store.dispatch(ROVER_ACTIONS.resetRoverManifestLoad({ rover: this.code }));
   }
 
+  /**
+   * Sets the subscritpions for the component
+   */
   private setSubscriptions(): void {
     this.noManifestLoading = this.store.select(ROVER_SELECTORS.getNoManifestLoading);
     this.selectedIndex = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getSelectedIndex, this.code);
@@ -105,6 +212,9 @@ export class RoverPanelComponent implements OnInit {
     this.totalPages = Utils.getRoverValueFromStore(this.store, ROVER_SELECTORS.getPhotosPages, this.code).pipe(map(value => value ?? 1));
   }
 
+  /**
+   * Sets the actions for the component
+   */
   private setActions(): void {
     this.loadAction = ROVER_ACTIONS.loadRoverManifest({ rover: this.code });
     this.firstPageAction = ROVER_ACTIONS.goToFirstPhotosPage({ rover: this.code });

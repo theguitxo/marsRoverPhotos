@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
 
   /**
    * Constructor for root component
-   * @param store Store for app data
+   * @param {Store<StoreState>} store Store for app data
    */
   constructor(
     private readonly store: Store<StoreState>
