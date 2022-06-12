@@ -11,7 +11,8 @@
     "test:coverage": "jest --watch --coverage",
     "compodoc": "npx compodoc -p tsconfig.doc.json -n \"documentacion\"",
     "copy_doc": "cpx ./documentation/**/*.* ./docs/documentation -C",
-    "doc_build": "npm run compodoc && npm run build && npm run copy_doc"
+    "copy_screenshot_documentation": "cpx ./screenshot.png ./docs/documentation -C",
+    "doc_build": "npm run compodoc && npm run build && npm run copy_doc && npm run copy_screenshot_documentation"
   },
   "private": true,
   "dependencies": {
