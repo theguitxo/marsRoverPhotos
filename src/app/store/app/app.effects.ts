@@ -10,6 +10,7 @@ import { selectRouteParams } from "../router/router.selectors";
 import { RoverPhotosRequest } from "../../models/rovers";
 import { ACTIONS, loadCamPhotos, loadRoverManifest } from "./app.actions";
 import * as SELECTORS from './app.selectors';
+import { DETAILS_PARAMS } from "../../models/constants";
 
 @Injectable()
 export class StoreEffects {
@@ -66,17 +67,17 @@ export class StoreEffects {
         let errorCode!: string;
         let errorMessage!: string;
 
-        if (hasMinimumParams && !!hasManifest.get(params['code'])) {
+        if (hasMinimumParams && !!hasManifest.get(params[DETAILS_PARAMS.CODE])) {
           const requestParams: RoverPhotosRequest = {
-            sol: params['sol'],
-            camera: params['camera']
+            sol: params[DETAILS_PARAMS.SOL],
+            camera: params[DETAILS_PARAMS.CAMERA]
           }
-          return this.apiService.loadRoverPhotos(params['code'], requestParams).pipe(
+          return this.apiService.loadRoverPhotos(params[DETAILS_PARAMS.CODE], requestParams).pipe(
             map((data: APIPhotoResponse) => ({
               type: ACTIONS.LOAD_CAM_PHOTOS_SUCCESS,
               data: data,
-              rover: params['code'],
-              camera: params['camera']
+              rover: params[DETAILS_PARAMS.CODE],
+              camera: params[DETAILS_PARAMS.CAMERA]
             })),
             catchError((e) => {
               errorCode = e?.error?.error?.code ?? e?.name;
@@ -91,7 +92,7 @@ export class StoreEffects {
         }
 
         errorCode = hasMinimumParams ? 'NO MANIFEST': 'NO ROUTE PARAMS';
-        errorMessage = hasMinimumParams ? `No manifest loaded for ${params['code']}` : 'Missing needed params to load data';
+        errorMessage = hasMinimumParams ? `No manifest loaded for ${params[DETAILS_PARAMS.CODE]}` : 'Missing needed params to load data';
 
         return of({
           type: ACTIONS.LOAD_CAM_PHOTOS_ERROR,

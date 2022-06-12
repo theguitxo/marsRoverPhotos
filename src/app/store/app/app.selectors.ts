@@ -8,33 +8,54 @@ import { ErrorDialogData } from "../../models/error";
 import { selectRouteParam, selectRouteParams } from "../router/router.selectors";
 import { Params } from "@angular/router";
 
+/**
+ * Returns the state of the store
+ */
 export const selectState = createFeatureSelector<StoreState>('store');
 
+/**
+ * Returns the code of the rover from the route params
+ */
 export const getDetailsRover = createSelector (
   selectRouteParam(ROVER_CONSTANTS.DETAILS_PARAMS.CODE),
   (code: string | undefined): string => code!
 );
 
+/**
+ * Returns a value that indicates that the route has the minimum parameters
+ */
 export const getHasDetailsMinimumParams = createSelector (
   selectRouteParams,
-  (params: Params): boolean => (!!(params['code']) && !!(params['sol']))
+  (params: Params): boolean => (!!(params[ROVER_CONSTANTS.DETAILS_PARAMS.CODE]) && !!(params[ROVER_CONSTANTS.DETAILS_PARAMS.SOL]))
 );
 
+/**
+ * Returns a value that indicates if any data is loading
+ */
 export const getIsLoading = createSelector (
   selectState,
   (state: StoreState): boolean => state?.loading
 );
 
+/**
+ * Returns a value that indicates if any data is loaded
+ */
 export const getIsLoaded = createSelector (
   selectState,
   (state: StoreState): boolean => state?.loaded
 );
 
+/**
+ * Returns a value that indicates if there was any error loading data
+ */
 export const getIsErrorLoading = createSelector (
   selectState,
   (state: StoreState): boolean => state?.errorLoading
 );
 
+/**
+ * Returns the error information produced when an error has occurred
+ */
 export const getErrorData = createSelector (
   selectState,
   (state: StoreState): ErrorDialogData => ({
@@ -43,28 +64,38 @@ export const getErrorData = createSelector (
   })
 );
 
+/**
+ * Returns a value that indicates if the initial data is ready to use
+ */
 export const getInitialDataIsReady = createSelector (
   selectState,
   (state: StoreState): boolean => state?.initialDataReady
 );
 
+/**
+ * Returns the list of rovers codes
+ */
 export const getCodesList = createSelector (
   selectState,
   (state: StoreState): string[] => state?.roverCodesList
 );
 
+/**
+ * Returns a map with information about the panels, if there are expanded or not
+ */
 export const getExpandedPanelStatus = createSelector (
   selectState,
   getCodesList,
   (state: StoreState, list: string[]): Map<string, boolean> => {
     const data = new Map();
-    list?.forEach(item => {
-      data.set(item, state?.expandedPanel?.indexOf(item) > - 1)
-    });
+    list?.forEach(item => data.set(item, state?.expandedPanel?.indexOf(item) > - 1));
     return data;
   }
 );
 
+/**
+ * Returns a map with the loading status for the manifest of each rover panel
+ */
 export const getLoadManifestStatus = createSelector (
   selectState,
   (state: StoreState): Map<string, PanelLoadStatus> => {
@@ -80,6 +111,9 @@ export const getLoadManifestStatus = createSelector (
   }
 );
 
+/**
+ * Returns the error information loading the manifest for each rover panel
+ */
 export const getErrorLoadingManifestData = createSelector (
   selectState,
   (state: StoreState): Map<string, ErrorDialogData> => {
@@ -94,71 +128,113 @@ export const getErrorLoadingManifestData = createSelector (
   }
 );
 
+/**
+ * Returns the index of the selected tab for each rover panel
+ */
 export const getSelectedIndex = createSelector (
   selectState,
   (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.SELECTED_INDEX)
 );
 
+/**
+ * Returns the indicator if is loading manifest for each rover panel
+ */
 export const getIsLoadingManifest = createSelector (
   selectState,
   (state: StoreState): Map<string, boolean> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LOADING_MANIFEST)
 );
 
+/**
+ * Returns the indicator if manifest is loaded for each rover panel
+ */
 export const getIsLoadedManifest = createSelector (
   selectState,
   (state: StoreState): Map<string, boolean> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LOADED_MANIFEST)
 );
 
+/**
+ * Returns the indicator if an error has occurred loading the manifest for each rover panel
+ */
 export const getIsErrorLoadingManifest = createSelector (
   selectState,
   (state: StoreState): Map<string, boolean> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.ERROR_LOADING_MANIFEST)
 );
 
+/**
+ * Returns the indicator if there are manifest for each rover panel
+ */
 export const getHasManifest = createSelector (
   selectState,
   (state: StoreState): Map<string, boolean> =>  createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.HAVE_MANIFEST)
 );
 
+/**
+ * Returns the indicator that neither panel is loading their manifest
+ */
 export const getNoManifestLoading = createSelector (
   selectState,
   (state: StoreState): boolean => state?.roversList?.every(item => !item.loadingManifest)
 );
 
+/**
+ * Returns the launch date for each rover
+ */
 export const getLaunchDates = createSelector (
   selectState,
   (state: StoreState): Map<string, string> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LAUNCH_DATE)
 );
 
+/**
+ * Returns the landing date for each rover
+ */
 export const getLandingDates = createSelector (
   selectState,
   (state: StoreState): Map<string, string> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.LANDING_DATE)
 );
 
+/**
+ * Returns the total days with photos for each rover
+ */
 export const getTotalPhotos = createSelector (
   selectState,
   (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.TOTAL_PHOTOS)
 );
 
+/**
+ * Returns the last martian sol with photo for each rover
+ */
 export const getMaxSol = createSelector (
   selectState,
   (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.MAX_SOL)
 );
 
+/**
+ * Returns the last earth date with photo for each rover
+ */
 export const getMaxDate = createSelector (
   selectState,
   (state: StoreState): Map<string, string> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.MAX_DATE)
 );
 
+/**
+ * Returns the status for each rover
+ */
 export const getStatus = createSelector (
   selectState,
   (state: StoreState): Map<string, ROVER_CONSTANTS.STATUS> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.STATUS)
 );
 
+/**
+ * Returns the cameras list for each rover
+ */
 export const getCamerasList = createSelector (
   selectState,
   (state: StoreState): Map<string, RoverCamera[]> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.CAMERAS)
 );
 
+/**
+ * Returns a paged list of photos information for a rover
+ */
 export const getPhotosList = createSelector (
   selectState,
   (state: StoreState): Map<string, ManifestPhoto[]> => {
@@ -179,16 +255,25 @@ export const getPhotosList = createSelector (
   }
 );
 
+/**
+ * Returns the current page for the list of rovers photo information for each rover
+ */
 export const getCurrentPhotosPage = createSelector (
   selectState,
   (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.CURRENT_PHOTOS_PAGE)
 );
 
+/**
+ * Returns the total pages for the list of rovers photo information for each rover
+ */
 export const getPhotosPages = createSelector (
   selectState,
   (state: StoreState): Map<string, number> => createValueMap(state, ROVER_CONSTANTS.ROVER_FIELDS.PHOTOS_PAGES)
 )
 
+/**
+ * Returns a value that indicates if the "previous" button for the paginator can be enabled
+ */
 export const getEnablePreviousButton = createSelector (
   selectState,
   (state: StoreState): Map<string, boolean[]> => {
@@ -205,6 +290,9 @@ export const getEnablePreviousButton = createSelector (
   }
 );
 
+/**
+ * Returns a value that indicates if the "next" button for the paginator can be enabled
+ */
 export const getEnableNextButton = createSelector (
   selectState,
   (state: StoreState): Map<string, boolean[]> => {
@@ -222,6 +310,9 @@ export const getEnableNextButton = createSelector (
   }
 );
 
+/**
+ * Returns a paginated list of detail photos for a rover
+ */
 export const getDetailRoverPhotosList = createSelector (
   selectState,
   selectRouteParams,
@@ -238,6 +329,9 @@ export const getDetailRoverPhotosList = createSelector (
   }
 );
 
+/**
+ * Returns a value that indicates if the details information about the photos for a rover is loaded
+ */
 export const getHasDetailRoverPhotosList = createSelector (
   selectState,
   selectRouteParams,
@@ -256,6 +350,9 @@ export const getHasDetailRoverPhotosList = createSelector (
   }
 );
 
+/**
+ * Returns the total pages of detail photos for a rover
+ */
 export const getRoverPhotoListTotalPages = createSelector (
   selectState,
   selectRouteParams,
@@ -264,6 +361,9 @@ export const getRoverPhotoListTotalPages = createSelector (
   }
 );
 
+/**
+ * Returns the current page in the list of detail photos for a rover
+ */
 export const getDetailsCurrentPage = createSelector (
   selectState,
   selectRouteParams,
@@ -272,6 +372,12 @@ export const getDetailsCurrentPage = createSelector (
   }
 );
 
+/**
+ * Creates a map with an individual value for all the rovers
+ * @param {StoreState} state state with all the data
+ * @param {string} key key with the value for add to the map
+ * @returns {Map<string, any>} a map with a total of keys as rovers there are, with the value searched for each rover
+ */
 function createValueMap(state: StoreState, key: string): Map<string, any> {
   const data = new Map();
   state?.roversList?.forEach(rover => {
@@ -285,6 +391,12 @@ function createValueMap(state: StoreState, key: string): Map<string, any> {
   return data;
 }
 
+/**
+ * Creates a list with all the detail photos for a rover
+ * @param {StoreState} state state with all the data
+ * @param {Params} params route params for filter the data
+ * @returns {RoverPhoto[]} a list of all detail photos for a rover
+ */
 function getNotPaginatedPhotoList(state: StoreState, params: Params ): RoverPhoto[] {
   const allPhotos: RoverPhoto[] = <RoverPhoto[]>state?.roversList?.
   filter((filterRover: Rover) => filterRover.code === params[ROVER_CONSTANTS.DETAILS_PARAMS.CODE]).
