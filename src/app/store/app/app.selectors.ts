@@ -368,7 +368,7 @@ export const getDetailsCurrentPage = createSelector (
   selectState,
   selectRouteParams,
   (state: StoreState, params: Params): number => {
-    return state?.roversList?.find(item => item.code === params["code"])?.roverPhotosCurrentPage!;
+    return state?.roversList?.find(item => item.code === params[ROVER_CONSTANTS.DETAILS_PARAMS.CODE])?.roverPhotosCurrentPage!;
   }
 );
 
