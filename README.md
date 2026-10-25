@@ -10,6 +10,10 @@ You can get more information about the NASA APIs in this url:
 
 [https://api.nasa.gov/](https://api.nasa.gov/)
 
+The functioning of the loading spinner used in this app is explained in this document (in spanish):
+
+[Loading spinner](https://github.com/theguitxo/marsRoverPhotos/blob/master/loading.spinner.ngrx.pdf)
+
 ## Development server
 
 This is a typical Angular application, so, you can run in your local machine running the development server.
@@ -27,3 +31,7 @@ You can use a deployed version of the application in this url:
 There are a Compodoc page with the code documentation of the application:
 
 [https://theguitxo.github.io/marsRoverPhotos/documentation/index.html](https://theguitxo.github.io/marsRoverPhotos/documentation/index.html)
+
+El funcionamiento del indicador de carga usado en esta aplicación esta explicado en este documento:
+
+[Loading spinner](https://github.com/theguitxo/marsRoverPhotos/blob/master/loading.spinner.ngrx.pdf)
